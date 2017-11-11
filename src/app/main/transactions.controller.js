@@ -1,4 +1,3 @@
-//src/app/main/transactions.controller.js
 angular.module("ngmkdev").controller('TransactionsController',
                           function(/*$scope, */ TransactionsStore) {
   var vm = this;
@@ -12,17 +11,10 @@ angular.module("ngmkdev").controller('TransactionsController',
     vm.selected = selected;
   }
 
-  vm.removeTransaction = function(selected) {
-    vm.setSelected(selected);
-    TransactionsStore.removeTransaction(selected);
-  }
-
-  vm.removeTransactionByItem = function(selected) {
-    TransactionsStore.removeTransactionByItem(selected);
-  }
-
-  vm.removeTransactionByItem1 = function(selected) {
-    TransactionsStore.removeTransactionByItem1(selected);
+  vm.removeTransaction = function(selected, tIdx) {
+    TransactionsStore.removeTransaction(selected, tIdx).then(function() {
+      vm.transactions.splice(tIdx, 1);
+    });
   }
 
   vm.resetTransaction = function() {

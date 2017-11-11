@@ -16,42 +16,15 @@ angular.module('ngmkdev').factory('TransactionsStore', function(Restangular) {
         vm.selected = vm.transactions.length - 1;
       })
     },
-    removeTransaction: function(tIdx) {
-      var vm = this;
-      console.log("selected = " + tIdx);
 
+    removeTransaction: function(transaction, tIdx) {
+      var vm = this;
+
+      vm.loadTransactions();
       vm.selected = tIdx;
-      vm.loadTransactions();
-      return Restangular.one('transactions', tIdx).remove().then(function() {
-        vm.transactions.splice(vm.selected, 1); 
-      })
-    },
+      //console.log("tIdx = " + tIdx);
 
-    removeTransactionByItem: function(transaction) {
-      var vm = this;
-
-      vm.loadTransactions();
-      vm.selected = transaction.id;
-      console.log("selected = " + vm.selected);
-
-      return transaction.remove().then(function() {
-        var index = vm.selected;
-        if (index > -1)
-          vm.transactions.splice(index, 1); 
-      })
-    },
-
-    removeTransactionByItem1: function(transaction) {
-      var vm = this;
-
-      vm.loadTransactions();
-      vm.selected = transaction.id;
-      console.log("selected = " + vm.selected);
-
-      return Restangular.one('transactions', transaction.id).remove().then(function() {
-        var index = vm.transactions.indexOf(transaction);
-        if (index > -1) vm.transactions.splice(transaction, 1);
-      })
+      return transaction.remove();
     },
 
     getSelected: function() {
