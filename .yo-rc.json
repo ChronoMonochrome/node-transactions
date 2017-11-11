@@ -1,64 +1,65 @@
 {
   "generator-gulp-angular": {
+    "version": "1.1.1",
     "props": {
-      "paths": {
-        "src": "src",
-        "dist": "dist",
-        "e2e": "e2e",
-        "tmp": ".tmp"
-      },
-      "angularVersion": "~1.3.4",
-      "angularModules": [],
+      "angularVersion": "~1.5.3",
+      "angularModules": [
+        {
+          "key": "animate",
+          "module": "ngAnimate"
+        },
+        {
+          "key": "cookies",
+          "module": "ngCookies"
+        },
+        {
+          "key": "messages",
+          "module": "ngMessages"
+        }
+      ],
       "jQuery": {
-        "name": "jquery",
-        "version": "~2.1.1"
+        "key": "jquery2"
       },
       "resource": {
-        "name": "restangular",
-        "version": "~1.4.0",
+        "key": "restangular",
         "module": "restangular"
       },
       "router": {
-        "name": "angular-ui-router",
-        "version": "~0.2.13",
+        "key": "ui-router",
         "module": "ui.router"
       },
       "ui": {
-        "name": "bootstrap-sass-official",
-        "version": "~3.3.1",
         "key": "bootstrap",
         "module": null
       },
       "bootstrapComponents": {
-        "name": "angular-bootstrap",
-        "version": "0.12.x",
         "key": "ui-bootstrap",
         "module": "ui.bootstrap"
       },
       "cssPreprocessor": {
-        "key": "none",
-        "extension": "css",
-        "module": null,
-        "version": null
+        "key": "less",
+        "extension": "less"
       },
       "jsPreprocessor": {
-        "key": "none",
+        "key": "noJsPrepro",
         "extension": "js",
-        "srcExtension": "js",
-        "module": null,
-        "version": null
+        "srcExtension": "js"
       },
       "htmlPreprocessor": {
-        "key": "none",
-        "extension": "html",
-        "module": null,
-        "version": null
+        "key": "noHtmlPrepro",
+        "extension": "html"
       },
       "foundationComponents": {
         "name": null,
         "version": null,
         "key": null,
         "module": null
+      },
+      "paths": {
+        "src": "src",
+        "dist": "dist",
+        "e2e": "e2e",
+        "tmp": ".tmp"
       }
     }
   }
