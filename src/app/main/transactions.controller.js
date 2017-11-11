@@ -1,21 +1,39 @@
-angular.module('ngmkdev').controller('TransactionsCtrl', function($scope, TransactionsStore) {
+//src/app/main/transactions.controller.js
+angular.module("ngmkdev").controller('TransactionsController',
+                          function(/*$scope, */ TransactionsStore) {
+  var vm = this;
 
-  TransactionsStore.loadTransactions();
-
-  this.addTransaction = function() {
-    TransactionsStore.addTransaction(this.newTransaction);
-    this.resetTransaction();
+  vm.addTransaction = function() {
+    TransactionsStore.addTransaction(vm.newTransaction);
+    vm.resetTransaction();
   }
 
-  this.resetTransaction = function() {
-    this.newTransaction = {
+  vm.setSelected = function(selected) {
+    vm.selected = selected;
+  }
+
+  vm.removeTransaction = function(selected) {
+    vm.setSelected(selected);
+    TransactionsStore.removeTransaction(selected);
+  }
+
+  vm.removeTransactionByItem = function(selected) {
+    TransactionsStore.removeTransactionByItem(selected);
+  }
+
+  vm.removeTransactionByItem1 = function(selected) {
+    TransactionsStore.removeTransactionByItem1(selected);
+  }
+
+  vm.resetTransaction = function() {
+    vm.newTransaction = {
       amount: 0.0,
-      date: "01/02/1993",
+      date: "1993-02-01",
       description: null
     }
   }
-  this.transactions = TransactionsStore.transactions;
-  this.resetTransaction();
 
+  vm.transactions = TransactionsStore.loadTransactions();
+  vm.resetTransaction();
 });
 

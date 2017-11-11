@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="ngmkdev">
+<html ng-app="ngmkdev">
   <head>
     <meta charset="utf-8">
     <title>ngmkdev</title>
@@ -8,15 +8,14 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
     <!-- bower:css -->
-    <!-- run `gulp wiredep` to automaticaly populate bower styles dependencies -->
+    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css({.tmp/serve,src}) styles/app.css -->
     <!-- inject:css -->
-    <!-- css files will be automaticaly insert here -->
+    <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
   </head>
@@ -25,48 +24,40 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container">
-      <div class="col-xs-2" ng-controller="NavigationCtrl as navigation_ctrl">
-        <h2>Деньги</h2>
-        <h3 class="money-ok">
-          {{navigation_ctrl.transactions_store.sum()}}
-        </h3>
-        <ul class="nav nav-pills nav-stacked">
-          <li ui-sref-active="active">
-            <a ui-sref="transactions">
-              <i class="glyphicon glyphicon-th-list"></i>
-              Транзакции <span class="badge">{{navigation_ctrl.transctions_store.transactions.length}}</span>
-            </a>
-          </li>
-          <li ui-sref-active="active">
-            <a ui-sref="settings">
-              <i class="glyphicon glyphicon-tasks"></i> Настройки
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-6" ui-view></div>
-    </div>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+<div class="container">
+  <div class="col-xs-2" ng-controller="NavigationController as navigation_ctrl">
+    <h2>Деньги</h2>
+    <h3 class="money-ok">
+      500.0
+    </h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li>
+        <a ui-sref="transactions">
+          <i class="glyphicon glyphicon-th-list"></i>
+          Транзакции <span class="badge">{{navigation_ctrl.transactions.length}}</span>
+          <br>
+          Выделен <span class="badge">{{navigation_ctrl.getSelected()}}</span>
+        </a>
+      </li>
+      <li>
+        <a ui-sref="settings">
+          <i class="glyphicon glyphicon-tasks"></i> Настройки
+        </a>
+      </li>
+    </ul>
+  </div>
+ <div class="col-xs-6" ui-view></div>
+</div>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
-    <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
+    <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
     <!-- inject:js -->
-    <!-- js files will be automaticaly insert here -->
+    <!-- js files will be automatically insert here -->
     <!-- endinject -->
 
     <!-- inject:partials -->
