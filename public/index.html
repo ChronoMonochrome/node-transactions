@@ -52,80 +52,45 @@
     </ul>
   </div>
 
-
-  <div class="col-xs-6" ng-controller="TransactionsController as transactions_ctrl">
-    <h2>Транзакции</h2>
-
-    <form class="form-inline" ng-submit="transactions_ctrl.addTransaction()">
-     <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon">$</div>
-        <input class="form-control"
-               type="text"
-               placeholder="Сумма"
-               ng-model="transactions_ctrl.newTransaction.amount">
-      </div>
-     </div>
-     <div class="form-group">
-      <label class="sr-only"></label>
-      <input type="text" 
-             class="form-control"
-             placeholder="Описание"
-             ng-model="transactions_ctrl.newTransaction.description">
-     </div>
-     <button type="submit" class="btn btn-default">Добавить</button>
-    </form>
-
-  <br>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Сумма</th>
-        <th>Дата</th>
-        <th>Описание</th>
-        <th>Действия</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="transaction in transactions_ctrl.transactions">
-        <td>{{transaction.amount}}</td>
-        <td>{{transaction.date}}</td>
-        <td>{{transaction.description}}</td>
-        <td>
-           <form class="form-inline" ng-submit="transactions_ctrl.removeTransaction(transaction, $index)">
-              <button type="submit" class="btn btn-default">[x]</button>
-            </form>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- Выделен <span class="badge">{{transactions_ctrl.selected}}</span> -->
-  </div>
-
-<!--
  <div class="col-xs-6" ui-view></div>
--->
 
 </div>
 
-
-    <script src="js/bundle.js"></script>
-    <script src="js/core.js"></script> <!- - load our main application - ->
 <!--
-    <script src="/app/index.module.js"></script>
+    <script src="js/bundle.js"></script>
 -->
+
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.js"></script>
+    <script src="/bower_components/lodash/lodash.js"></script>
+    <script src="/bower_components/restangular/dist/restangular.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/malarkey/dist/malarkey.min.js"></script>
+    <script src="/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+<!--
+    <script src="js/core.js"></script> <!- - load our main application - ->
+-->
+
+
+    <script src="/app/index.module.js"></script>
+
     <script src="/app/components/webDevTec/webDevTec.service.js"></script>
     <script src="/app/components/navbar/transactions_store.service.js"></script>
     <script src="/app/components/malarkey/malarkey.directive.js"></script>
     <script src="/app/components/githubContributor/githubContributor.service.js"></script>
     <script src="/app/main/transactions.controller.js"></script>
     <script src="/app/main/navigation.controller.js"></script>
-<!--
+
     <script src="/app/index.run.js"></script>
     <script src="/app/index.route.js"></script>
     <script src="/app/index.constants.js"></script>
     <script src="/app/index.config.js"></script>
--->
+
 
 </body>
 </html>

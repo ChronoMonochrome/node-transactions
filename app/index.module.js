@@ -14,8 +14,8 @@
           url: "/settings",
           templateUrl: "app/settings/settings.html"
         });
-        RestangularProvider.setBaseUrl("http://localhost:4567");
+        RestangularProvider.setBaseUrl("http://localhost:8080");
 
-        $urlRouterProvider.otherwise('/transactions');
+        $urlRouterProvider.otherwise('/');
       });
 })();
