@@ -2,6 +2,14 @@ var Todo = require('./models/todo');
 var path = require('path');
 var express = require('express');
 
+var bodyParser = require("body-parser");
+//var cors = require('cors');
+var mongoClient = require("mongodb").MongoClient;
+var objectId = require("mongodb").ObjectID;
+
+var jsonParser = bodyParser.json();
+var url = "mongodb://localhost:27017/transactions";
+
 function getTodos(res) {
     Todo.find(function (err, todos) {
 
@@ -23,6 +31,90 @@ module.exports = function(app) {
     app.get('/', function (req, res) {
 	res.send("Hello!");
     });
+
+app.get("/api/transactions", function(req, res){
+      
+    mongoClient.connect(url, function(err, db){
+	try {
+	        db.collection("transactions").find({}).toArray(function(err, transactions){
+        	    res.send(transactions)
+        	    db.close();
+        	});
+	} catch (err) {
+		console.log(err);
+	}
+    });
+});
+app.get("/api/transactions/:id", function(req, res){
+      
+    var id = new objectId(req.params.id);
+    mongoClient.connect(url, function(err, db){
+        db.collection("transactions").findOne({_id: id}, function(err, transaction){
+             
+            if(err) return res.status(400).send();
+             
+            res.send(transaction);
+            db.close();
+        });
+    });
+});
+ 
+app.post("/api/transactions", jsonParser, function (req, res) {
+     
+    if(!req.body) return res.sendStatus(400);
+    //console.log(req.body);
+
+    var transactionAmount = req.body.transaction.amount;
+    //console.log(req.body.transaction.amount);
+    var transactionDate = req.body.transaction.date;
+    var transaction = {amount: transactionAmount, date: transactionDate};
+     
+    mongoClient.connect(url, function(err, db){
+        db.collection("transactions").insertOne(transaction, function(err, result){
+             
+            if(err) return res.status(400).send();
+             
+            res.send(transaction);
+            db.close();
+        });
+    });
+});
+  
+app.delete("/api/transactions/:id", function(req, res){
+      
+    var id = new objectId(req.params.id);
+    mongoClient.connect(url, function(err, db){
+        db.collection("transactions").findOneAndDelete({_id: id}, function(err, result){
+             
+            if(err) return res.status(400).send();
+             
+            var transaction = result.value;
+            res.send(transaction);
+            db.close();
+        });
+    });
+});
+ 
+app.put("/api/transactions", jsonParser, function(req, res){
+      
+    if(!req.body) return res.sendStatus(400);
+    var id = new objectId(req.body.transaction.id);
+    var transactionAmount = req.body.transaction.amount;
+    var transactionDate = req.body.transaction.date;
+     
+    mongoClient.connect(url, function(err, db){
+        db.collection("transactions").findOneAndUpdate({_id: id}, { $set: {amount: transactionAmount, date: transactionDate}},
+             {returnOriginal: false },function(err, result){
+             
+            if(err) return res.status(400).send();
+             
+            var transaction = result.value;
+            res.send(transaction);
+            db.close();
+        });
+    });
+});
+
 /*
     app.get('/transactions', function (req, res) {
 	res.send("Hello!");
@@ -33,50 +125,3 @@ module.exports = function(app) {
     });
 */
 }
-
-/*
-module.exports = function (app) {
-
-    // api ---------------------------------------------------------------------
-    // get all todos
-    app.get('/api/todos', function (req, res) {
-        // use mongoose to get all todos in the database
-        getTodos(res);
-    });
-
-    // create todo and send back all todos after creation
-    app.post('/api/todos', function (req, res) {
-
-        // create a todo, information comes from AJAX request from Angular
-        Todo.create({
-            text: req.body.text,
-            done: false
-        }, function (err, todo) {
-            if (err)
-                res.send(err);
-
-            // get and return all the todos after you create another
-            getTodos(res);
-        });
-
-    });
-
-    // delete a todo
-    app.delete('/api/todos/:todo_id', function (req, res) {
-        Todo.remove({
-            _id: req.params.todo_id
-        }, function (err, todo) {
-            if (err)
-                res.send(err);
-
-            getTodos(res);
-        });
-    });
-
-    // application -------------------------------------------------------------
-    app.get('*', function (req, res) {
-	res.send("Hello!");
-        //res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-    });
-};
-*/

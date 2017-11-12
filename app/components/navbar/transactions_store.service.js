@@ -5,13 +5,13 @@ angular.module('ngmkdev').factory('TransactionsStore', function(Restangular) {
     loadTransactions: function() {
       var vm = this;
 
-      vm.transactions = Restangular.all('transactions').getList().$object;
+      vm.transactions = Restangular.all('api/transactions').getList().$object;
       return vm.transactions;
     },
     addTransaction: function(transaction) {
       var vm = this;
 
-      return Restangular.all('transactions').post({transaction: transaction}).then(function() {
+      return Restangular.all('api/transactions').post({transaction: transaction}).then(function() {
         vm.transactions.push(transaction);
         vm.selected = vm.transactions.length - 1;
       })
@@ -22,9 +22,7 @@ angular.module('ngmkdev').factory('TransactionsStore', function(Restangular) {
 
       vm.loadTransactions();
       vm.selected = tIdx;
-      //console.log("tIdx = " + tIdx);
-
-      return transaction.remove();
+      return Restangular.one('api/transactions', transaction._id).remove();
     },
 
     getSelected: function() {
