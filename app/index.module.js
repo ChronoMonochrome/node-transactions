@@ -1,5 +1,3 @@
-/*angular.module('scotchTodo', ['todoController', 'todoService']);*/
-
 (function() {
   'use strict';
 
@@ -16,7 +14,7 @@
           url: "/settings",
           templateUrl: "app/settings/settings.html"
         });
-        //RestangularProvider.setBaseUrl("http://localhost:4567");
+        RestangularProvider.setBaseUrl("http://localhost:4567");
 
         $urlRouterProvider.otherwise('/transactions');
       });

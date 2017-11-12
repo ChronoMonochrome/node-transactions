@@ -1,83 +1,131 @@
 <!doctype html>
 
 <!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="scotchTodo">
+<html ng-app="ngmkdev">
 <head>
-	<!-- META -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+    <!-- META -->
+    <meta charset="utf-8">
+    <title>ngmkdev</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-	<title>Node/Angular Todo App</title>
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="/scripts/angular-toastr/dist/angular-toastr.min.css" />
+    <link rel="stylesheet" href="/scripts/animate.css/animate.min.css" />
+    <link rel="stylesheet" href="/css/index.min.css" />
 
-	<!-- SCROLLS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<style>
-		html 					{ overflow-y:scroll; }
-		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
-	</style>
+    <!-- SPELLS -->
 
-	<!-- SPELLS -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
-
-	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
-	<script src="js/services/todos.js"></script> <!-- load our todo service -->
-	<script src="js/core.js"></script> <!-- load our main application -->
+<!--	
+	<script src="js/controllers/main.js"></script> <!- - load up our controller - ->
+	<script src="js/services/todos.js"></script> <!- - load our todo service - ->
+	<script src="js/core.js"></script> <!- - load our main application - ->
+-->
 
 </head>
-<!-- SET THE CONTROLLER -->
-<body ng-controller="mainController">
-	<div class="container">
+<body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ todos.length }}</span></h1>
-		</div>
+<div class="container">
+  <!-- SET THE CONTROLLER -->
+  <div class="col-xs-2" ng-controller="NavigationController as navigation_ctrl">
+    <h2>Деньги</h2>
+    <h3 class="money-ok">
+      500.0
+    </h3>
+    <ul class="nav nav-pills nav-stacked">
+      <li>
+        <a ui-sref="transactions">
+          <i class="glyphicon glyphicon-th-list"></i>
+          Транзакции <span class="badge">{{navigation_ctrl.transactions.length}}</span>
+          <br>
+          Выделен <span class="badge">{{navigation_ctrl.getSelected()}}</span>
+        </a>
+      </li>
+      <li>
+        <a ui-sref="settings">
+          <i class="glyphicon glyphicon-tasks"></i> Настройки
+        </a>
+      </li>
+    </ul>
+  </div>
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
 
-				
+  <div class="col-xs-6" ng-controller="TransactionsController as transactions_ctrl">
+    <h2>Транзакции</h2>
 
-				<!-- LOOP OVER THE TODOS IN $scope.todos -->
-				<div class="checkbox" ng-repeat="todo in todos">
-					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-					</label>
-				</div>
+    <form class="form-inline" ng-submit="transactions_ctrl.addTransaction()">
+     <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">$</div>
+        <input class="form-control"
+               type="text"
+               placeholder="Сумма"
+               ng-model="transactions_ctrl.newTransaction.amount">
+      </div>
+     </div>
+     <div class="form-group">
+      <label class="sr-only"></label>
+      <input type="text" 
+             class="form-control"
+             placeholder="Описание"
+             ng-model="transactions_ctrl.newTransaction.description">
+     </div>
+     <button type="submit" class="btn btn-default">Добавить</button>
+    </form>
 
-				<p class="text-center" ng-show="loading">
-					<span class="fa fa-spinner fa-spin fa-3x"></span>
-				</p>
+  <br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Сумма</th>
+        <th>Дата</th>
+        <th>Описание</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="transaction in transactions_ctrl.transactions">
+        <td>{{transaction.amount}}</td>
+        <td>{{transaction.date}}</td>
+        <td>{{transaction.description}}</td>
+        <td>
+           <form class="form-inline" ng-submit="transactions_ctrl.removeTransaction(transaction, $index)">
+              <button type="submit" class="btn btn-default">[x]</button>
+            </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Выделен <span class="badge">{{transactions_ctrl.selected}}</span> -->
+  </div>
 
-			</div>
-		</div>
+<!--
+ <div class="col-xs-6" ui-view></div>
+-->
 
-		<!-- FORM TO CREATE TODOS -->
-		<div id="todo-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
+</div>
 
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
-					</div>
 
-					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
-				</form>
-			</div>
-		</div>
-
-		<div class="text-center text-muted">
-			<p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-			<p>Read the <a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular">tutorial</a>.</p>
-		</div>
-
-	</div>
+    <script src="js/bundle.js"></script>
+    <script src="js/core.js"></script> <!- - load our main application - ->
+<!--
+    <script src="/app/index.module.js"></script>
+-->
+    <script src="/app/components/webDevTec/webDevTec.service.js"></script>
+    <script src="/app/components/navbar/transactions_store.service.js"></script>
+    <script src="/app/components/malarkey/malarkey.directive.js"></script>
+    <script src="/app/components/githubContributor/githubContributor.service.js"></script>
+    <script src="/app/main/transactions.controller.js"></script>
+    <script src="/app/main/navigation.controller.js"></script>
+<!--
+    <script src="/app/index.run.js"></script>
+    <script src="/app/index.route.js"></script>
+    <script src="/app/index.constants.js"></script>
+    <script src="/app/index.config.js"></script>
+-->
 
 </body>
 </html>

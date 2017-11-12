@@ -1,4 +1,6 @@
 var Todo = require('./models/todo');
+var path = require('path');
+var express = require('express');
 
 function getTodos(res) {
     Todo.find(function (err, todos) {
@@ -12,6 +14,17 @@ function getTodos(res) {
     });
 };
 
+module.exports = function(app) {
+    app.use('/app', express.static(path.join(__dirname, '../app')));
+    app.use('/scripts', express.static(path.join(__dirname, '../node_modules')));
+    app.use(express.static(path.join(__dirname, '../public')));
+
+    app.get('/', function (req, res) {
+	res.send("Hello!");
+    });
+}
+
+/*
 module.exports = function (app) {
 
     // api ---------------------------------------------------------------------
@@ -52,6 +65,8 @@ module.exports = function (app) {
 
     // application -------------------------------------------------------------
     app.get('*', function (req, res) {
-        res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+	res.send("Hello!");
+        //res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
 };
+*/
