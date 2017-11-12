@@ -8,7 +8,5 @@ require('angular-bootstrap');
 require('angular-toastr');
 require('lodash');
 require('restangular');
-require('malarkey');
+//require('malarkey');
 require('moment');
-
-require("../../node_modules/angular-toastr/dist/angular-toastr.css");

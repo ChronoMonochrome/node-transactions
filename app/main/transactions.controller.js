@@ -3,7 +3,9 @@ angular.module("ngmkdev").controller('TransactionsController',
   var vm = this;
 
   vm.addTransaction = function() {
-    TransactionsStore.addTransaction(vm.newTransaction);
+    TransactionsStore.addTransaction(vm.newTransaction).then(function(transaction) {
+       vm.transactions.push(transaction);
+    });
     vm.resetTransaction();
   }
 

@@ -10,11 +10,9 @@ angular.module('ngmkdev').factory('TransactionsStore', function(Restangular) {
     },
     addTransaction: function(transaction) {
       var vm = this;
+      vm.selected = vm.transactions.length - 1;
 
-      return Restangular.all('api/transactions').post({transaction: transaction}).then(function() {
-        vm.transactions.push(transaction);
-        vm.selected = vm.transactions.length - 1;
-      })
+      return Restangular.all('api/transactions').post({transaction: transaction});
     },
 
     removeTransaction: function(transaction, tIdx) {
