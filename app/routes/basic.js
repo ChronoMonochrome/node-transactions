@@ -6,7 +6,7 @@ module.exports = function(app) {
     app.use('/scripts', express.static(path.join(__dirname, '../../node_modules')));
     app.use('/bower_components', express.static(path.join(__dirname, '../../bower_components')));
     app.use(express.static(path.join(__dirname, '../../public')));
-    app.get('/', function (req, res) {
+    app.get('/', function(req, res) {
         res.send("Hello!");
     });
 
