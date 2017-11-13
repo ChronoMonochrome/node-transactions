@@ -1,0 +1,2 @@
+find app -type f -name "*.js" -exec ./node_modules/.bin/js-beautify -r {} \;
+find app public -type f -name "*.html" -exec ./node_modules/.bin/js-beautify --type html -r {} \;

@@ -1,0 +1,2 @@
+webpack --progress -p
+./node_modules/.bin/uglifycss --ugly-comments --debug ./public/css/index.css > ./public/css/index.min.css

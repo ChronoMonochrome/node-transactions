@@ -1,14 +1,14 @@
 {
-  "name": "node-todo",
+  "name": "node-transactions",
   "version": "0.0.1",
-  "description": "Simple todo application.",
+  "description": "A simple Node/MongoDB/Angular todo app",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --progress -p; ./node_modules/.bin/uglifycss --ugly-comments --debug ./public/css/index.css > ./public/css/index.min.css",
-    "watch": "webpack --progress --watch; ./node_modules/.bin/uglifycss --ugly-comments --debug ./public/css/index.css > ./public/css/index.min.css"
+    "build": "cat ./tasks/build.txt | bash -i",
+    "prettify": "cat ./tasks/prettify.txt | bash -i"
   },
-  "author": "Scotch",
+  "author": "Chrono",
   "dependencies": {
     "angular": "^1.6.6",
     "angular-animate": "^1.6.6",
