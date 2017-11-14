@@ -1,0 +1,22 @@
+<!-- SET THE CONTROLLER -->
+ <div class="col-xs-2" ng-controller="NavigationController as navigation_ctrl">
+    <h2>Деньги</h2>
+    <h3 class="money-ok">
+        500.0
+    </h3>
+        <ul class="nav nav-pills nav-stacked">
+        <li>
+            <a ui-sref="transactions">
+                <i class="glyphicon glyphicon-th-list"></i>
+                Транзакции <span class="badge">{{navigation_ctrl.transactions.length}}</span>
+                <br>
+                Выделен <span class="badge">{{navigation_ctrl.getSelected()}}</span>
+            </a>
+        </li>
+        <li>
+            <a ui-sref="settings">
+                <i class="glyphicon glyphicon-tasks"></i> Настройки
+            </a>
+        </li>
+    </ul>
+</div>

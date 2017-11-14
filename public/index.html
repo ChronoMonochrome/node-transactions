@@ -23,32 +23,12 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container">
-        <!-- SET THE CONTROLLER -->
-        <div class="col-xs-2" ng-controller="NavigationController as navigation_ctrl">
-            <h2>Деньги</h2>
-            <h3 class="money-ok">
-                500.0
-            </h3>
-            <ul class="nav nav-pills nav-stacked">
-                <li>
-                    <a ui-sref="transactions">
-          <i class="glyphicon glyphicon-th-list"></i>
-          Транзакции <span class="badge">{{navigation_ctrl.transactions.length}}</span>
-          <br>
-          Выделен <span class="badge">{{navigation_ctrl.getSelected()}}</span>
-        </a>
-                </li>
-                <li>
-                    <a ui-sref="settings">
-          <i class="glyphicon glyphicon-tasks"></i> Настройки
-        </a>
-                </li>
-            </ul>
+    <div class="container" ng-controller="MainController as main_ctrl">
+        <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+        <div ng-if="main_ctrl.IsAuth()">
+            <div ng-include src="'/views/navbar.view.html'"></div>
         </div>
-
         <div class="col-xs-6" ui-view></div>
-
     </div>
 
     <script src="js/bundle.js"></script>
@@ -70,15 +50,29 @@
     <script src="js/core.js"></script> <!- - load our main application - ->
 -->
 
-
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/app/index.module.js"></script>
 
     <script src="/app/components/webDevTec/webDevTec.service.js"></script>
-    <script src="/app/components/navbar/transactions_store.service.js"></script>
     <script src="/app/components/malarkey/malarkey.directive.js"></script>
     <script src="/app/components/githubContributor/githubContributor.service.js"></script>
+
+    <script src="/app/services/transactions_store.service.js"></script>
+    <script src="/app/services/authentication.service.js"></script>
+    <script src="/app/services/flash.service.js"></script>
+
+    <script src="/app/main/main.controller.js"></script>
     <script src="/app/main/transactions.controller.js"></script>
     <script src="/app/main/navigation.controller.js"></script>
+
+    <!-- Real user service that uses an api -->
+    <!-- <script src="//cdn.rawgit.com/cornflourblue/angular-registration-login-example/master/app-services/user.service.js"></script> -->
+
+    <!-- Fake user service for demo that uses local storage -->
+    <script src="/app/services/user.service.local-storage.js"></script>
+
+    <script src="/app/main/login.controller.js"></script>
+    <script src="/app/main/register.controller.js"></script>
 
     <script src="/app/index.run.js"></script>
     <script src="/app/index.constants.js"></script>
