@@ -35,7 +35,7 @@
 
         function Create(user) {
             return Restangular.all('/api/users').post({user: user})
-                   .then(handleSuccess, handleError('Error creating user'));
+                   .then(handleSuccess, handleCreateError('Error creating user'));
         }
 
         function Update(user) {
@@ -51,15 +51,27 @@
         // private functions
 
         function handleSuccess(res) {
+            //console.log(res);
             return { success: true };
         }
 
         function handleError(error) {
-            console.log(error);
-            return function () {
+            //console.log(error);
+            return function (res) {
+                //console.log(res);
+                return { success: false, message: error };
+            };
+        }
+
+        function handleCreateError(error) {
+            //console.log(error);
+            return function (res) {
+                //console.log(res);
+                if (res.status == 422)
+                    error += ': username is already taken';
+
                 return { success: false, message: error };
             };
         }
     }
-
 })();
