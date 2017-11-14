@@ -1,13 +1,12 @@
-﻿(function () {
+(function () {
     'use strict';
 
     angular
         .module('ngmkdev')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$timeout', '$filter', '$q'];
-    function UserService($timeout, $filter, $q) {
-
+    UserService.$inject = ['Restangular'];
+    function UserService(Restangular) {
         var service = {};
 
         service.GetAll = GetAll;
@@ -20,100 +19,47 @@
         return service;
 
         function GetAll() {
-            var deferred = $q.defer();
-            deferred.resolve(getUsers());
-            return deferred.promise;
+            return Restangular.all('/api/users').getList()
+                   .then(handleSuccess, handleError('Error getting all users'));
         }
 
         function GetById(id) {
-            var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { id: id });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
+            return Restangular.one('/api/users/', id).get()
+                   .then(handleSuccess, handleError('Error getting user by id'));
         }
 
         function GetByUsername(username) {
-            var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { username: username });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
+            return Restangular.one('/api/users/user/', username).get()
+                   .then(handleSuccess, handleError('Error getting user by username'));
         }
 
         function Create(user) {
-            var deferred = $q.defer();
-
-            // simulate api call with $timeout
-            $timeout(function () {
-                GetByUsername(user.username)
-                    .then(function (duplicateUser) {
-                        if (duplicateUser !== null) {
-                            deferred.resolve({ success: false, message: 'Username "' + user.username + '" is already taken' });
-                        } else {
-                            var users = getUsers();
-
-                            // assign id
-                            var lastUser = users[users.length - 1] || { id: 0 };
-                            user.id = lastUser.id + 1;
-
-                            // save to local storage
-                            users.push(user);
-                            setUsers(users);
-
-                            deferred.resolve({ success: true });
-                        }
-                    });
-            }, 1000);
-
-            return deferred.promise;
+            return Restangular.all('/api/users').post({user: user})
+                   .then(handleSuccess, handleError('Error creating user'));
         }
 
         function Update(user) {
-            var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].id === user.id) {
-                    users[i] = user;
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
+            return Restangular.one('/api/users/', user.id).put({user: user})
+                   .then(handleSuccess, handleError('Error updating user'));
         }
 
         function Delete(id) {
-            var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                var user = users[i];
-                if (user.id === id) {
-                    users.splice(i, 1);
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
+            return Restangular.one('/api/users/', id).remove()
+                   .then(handleSuccess, handleError('Error deleting user'));
         }
 
         // private functions
 
-        function getUsers() {
-            if(!localStorage.users){
-                localStorage.users = JSON.stringify([]);
-            }
-
-            return JSON.parse(localStorage.users);
+        function handleSuccess(res) {
+            return { success: true };
         }
 
-        function setUsers(users) {
-            localStorage.users = JSON.stringify(users);
+        function handleError(error) {
+            console.log(error);
+            return function () {
+                return { success: false, message: error };
+            };
         }
     }
+
 })();

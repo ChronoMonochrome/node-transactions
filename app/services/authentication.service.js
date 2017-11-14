@@ -5,8 +5,8 @@
         .module('ngmkdev')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$http', 'Restangular', '$cookies', '$rootScope', '$timeout', 'UserService'];
+    function AuthenticationService($http, Restangular, $cookies, $rootScope, $timeout, UserService) {
         var service = {};
 
         service.Login = Login;
@@ -20,7 +20,7 @@
 
             /* Dummy authentication for testing, uses $timeout to simulate api call
              ----------------------------------------------*/
-            $timeout(function () {
+            /*$timeout(function () {
                 var response;
                 UserService.GetByUsername(username)
                     .then(function (user) {
@@ -31,15 +31,22 @@
                         }
                         callback(response);
                     });
-            }, 1000);
+            }, 1000);*/
 
             /* Use this for real authentication
              ----------------------------------------------*/
-            //$http.post('/api/authenticate', { username: username, password: password })
-            //    .success(function (response) {
-            //        callback(response);
-            //    });
+            Restangular.all('/api/authenticate').post({
+                username: username, password: password
+            }).then(function(response) {
+                response = { success: true };
 
+                callback(response);
+            }).catch(function(response) {
+                response = { success: false,
+                             message: 'Username or password is incorrect' };
+
+                callback(response);
+            });
         }
 
         function IsAuth() {
