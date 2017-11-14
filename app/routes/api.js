@@ -210,22 +210,17 @@ module.exports = function(app) {
                     // username is already taken
                     if (result != undefined)
                         return res.status(422).send();
-                    else {
-                        db.close();
-                        callback(user);
-                    }
+                    else
+                        callback(db, user);
                 });
             });
         }
-        var callback = function(user) {
-            mongoClient.connect(url, function(err, db) {
-                console.log(user);
-                db.collection("users").insertOne(user, function(err, result) {
-                    if (err) return res.status(400).send();
+        var callback = function(db, user) {
+            db.collection("users").insertOne(user, function(err, result) {
+                if (err) return res.status(400).send();
 
-                    res.send(user);
-                    db.close();
-                });
+                res.send(user);
+                db.close();
             });
         }
 
