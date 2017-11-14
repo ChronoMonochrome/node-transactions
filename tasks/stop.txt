@@ -1,0 +1,4 @@
+MONGO_PATH=mongo
+
+kill -s INT $(cat $MONGO_PATH/mongod.lock)
+rm $MONGO_PATH/mongod.lock

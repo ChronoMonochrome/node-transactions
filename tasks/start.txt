@@ -1,0 +1,4 @@
+MONGO_PATH=mongo
+
+test -f $MONGO_PATH && mongod --dbpath $MONGO_PATH 2>&1 > mongo.log &
+sleep 0.5 && nodemon server.js

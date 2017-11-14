@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cat ./tasks/start.txt | bash -i",
+    "stop": "cat ./tasks/stop.txt | bash -i",
     "build": "cat ./tasks/build.txt | bash -i",
     "prettify": "cat ./tasks/prettify.txt | bash -i"
   },
