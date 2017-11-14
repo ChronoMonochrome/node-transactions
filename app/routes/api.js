@@ -200,14 +200,36 @@ module.exports = function(app) {
             password: uPassword
         };
 
-        mongoClient.connect(url, function(err, db) {
-            db.collection("users").insertOne(user, function(err, result) {
-            	if (err) return res.status(400).send();
+        var foo = function (user, callback) {
+            mongoClient.connect(url, function(err, db) {
+                db.collection("users").findOne({
+                    username: uUsername
+                }, function(err, result) {
+                    if (err) return res.status(400).send();
 
-                res.send(user);
-            	db.close();
+                    // username is already taken
+                    if (result != undefined)
+                        return res.status(422).send();
+                    else {
+                        db.close();
+                        callback(user);
+                    }
+                });
             });
-        });
+        }
+        var callback = function(user) {
+            mongoClient.connect(url, function(err, db) {
+                console.log(user);
+                db.collection("users").insertOne(user, function(err, result) {
+                    if (err) return res.status(400).send();
+
+                    res.send(user);
+                    db.close();
+                });
+            });
+        }
+
+        foo(user, callback);
     });
 
     app.delete("/api/users/:id", function(req, res) {
