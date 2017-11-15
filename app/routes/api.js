@@ -24,8 +24,12 @@ module.exports = function(app) {
         });
     });
     app.get("/api/transactions/:id", function(req, res) {
+        var id;
 
-        var id = new objectId(req.params.id);
+        if (req.params.id == undefined || !parseInt(req.params.id, 10))
+            return res.status(400).send();
+
+        id = new objectId(req.params.id);
         mongoClient.connect(url, function(err, db) {
             db.collection("transactions").findOne({
                 _id: id
@@ -40,7 +44,6 @@ module.exports = function(app) {
     });
 
     app.post("/api/transactions", jsonParser, function(req, res) {
-
         if (!req.body) return res.sendStatus(400);
         //console.log(req.body);
 
@@ -65,7 +68,12 @@ module.exports = function(app) {
 
     app.delete("/api/transactions/:id", function(req, res) {
 
-        var id = new objectId(req.params.id);
+        var id;
+
+        if (req.params.id == undefined || !parseInt(req.params.id, 10))
+            return res.status(400).send();
+
+        id = new objectId(req.params.id);
         mongoClient.connect(url, function(err, db) {
             db.collection("transactions").findOneAndDelete({
                 _id: id
@@ -122,8 +130,12 @@ module.exports = function(app) {
     });
 
     app.get("/api/users/:id", function(req, res) {
+        var id;
 
-        var id = new objectId(req.params.id);
+        if (req.params.id == undefined || !parseInt(req.params.id, 10))
+            return res.status(400).send();
+
+        id = new objectId(req.params.id);
         mongoClient.connect(url, function(err, db) {
             db.collection("users").findOne({
                 _id: id
@@ -137,8 +149,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get("/api/users/user/:username", function(req, res) {
-
+    app.get("/api/users/user/:username", jsonParser, function(req, res) {
         var username = req.params.username;
 
         mongoClient.connect(url, function(err, db) {
@@ -148,6 +159,7 @@ module.exports = function(app) {
 
                 if (err) return res.status(400).send();
 
+                console.log("username: user = " + user);
                 res.send(user);
                 db.close();
             });
@@ -200,21 +212,19 @@ module.exports = function(app) {
             password: uPassword
         };
 
-        var foo = function (user, callback) {
-            mongoClient.connect(url, function(err, db) {
-                db.collection("users").findOne({
-                    username: uUsername
-                }, function(err, result) {
-                    if (err) return res.status(400).send();
-
-                    // username is already taken
-                    if (result != undefined)
-                        return res.status(422).send();
-                    else
-                        callback(db, user);
-                });
+        mongoClient.connect(url, function(err, db) {
+            db.collection("users").findOne({
+                username: uUsername
+            }, function(err, result) {
+                if (err) return res.status(400).send();
+                // username is already taken
+                if (result != undefined)
+                    return res.status(422).send();
+                else
+                    callback(db, user);
             });
-        }
+        });
+
         var callback = function(db, user) {
             db.collection("users").insertOne(user, function(err, result) {
                 if (err) return res.status(400).send();
@@ -223,13 +233,17 @@ module.exports = function(app) {
                 db.close();
             });
         }
-
-        foo(user, callback);
     });
 
     app.delete("/api/users/:id", function(req, res) {
 
-        var id = new objectId(req.params.id);
+        var id;
+
+        if (req.params.id == undefined)
+            return res.status(400).send();
+
+        id = new objectId(req.params.id);
+
         mongoClient.connect(url, function(err, db) {
             db.collection("users").findOneAndDelete({
                 _id: id

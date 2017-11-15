@@ -19,33 +19,55 @@
         return service;
 
         function GetAll() {
-            return Restangular.all('/api/users').getList()
-                   .then(handleSuccess, handleError('Error getting all users'));
+            var res = Restangular.all('/api/users').getList();
+            res.then(handleSuccess, handleError('Error getting all users'));
+
+            return res.$object;
         }
 
         function GetById(id) {
-            return Restangular.one('/api/users/', id).get()
-                   .then(handleSuccess, handleError('Error getting user by id'));
+            var res;
+
+            if (!parseInt(id))
+                return undefined;
+
+            res = Restangular.one('/api/users/', id).get();
+            res.then(handleSuccess, handleError('Error getting user by id'));
+
+            return res.$object;
         }
 
         function GetByUsername(username) {
-            return Restangular.one('/api/users/user/', username).get()
-                   .then(handleSuccess, handleError('Error getting user by username'));
+            var res;
+
+            if (!username)
+                return undefined;
+
+            res = Restangular.one('/api/users/user/', username).get();
+            res.then(handleSuccess, handleError('Error getting user by username'));
+
+            return res.$object;
         }
 
         function Create(user) {
-            return Restangular.all('/api/users').post({user: user})
-                   .then(handleSuccess, handleCreateError('Error creating user'));
+            var res = Restangular.all('/api/users').post({user: user});
+            res.then(handleSuccess, handleCreateError('Error creating user'));
+
+            return res.$object;
         }
 
         function Update(user) {
-            return Restangular.one('/api/users/', user.id).put({user: user})
-                   .then(handleSuccess, handleError('Error updating user'));
+            var res = Restangular.one('/api/users/', user.id).put({user: user});
+            res.then(handleSuccess, handleError('Error updating user'));
+
+            return res.$object;
         }
 
         function Delete(id) {
-            return Restangular.one('/api/users/', id).remove()
-                   .then(handleSuccess, handleError('Error deleting user'));
+            var res = Restangular.one('/api/users/', id).remove();
+            res.then(handleSuccess, handleError('Error deleting user'));
+
+            return res.$object;
         }
 
         // private functions
