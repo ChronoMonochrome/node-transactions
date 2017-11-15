@@ -39,21 +39,26 @@
             <div class="navbar-header">
               <a class="navbar-brand" href="#">Bootsnipp</a>
             </div>
-            <div>
+            <div ng-if="!main_ctrl.AuthenticationService.IsAuth()">
               <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
-                <li ng-if="!main_ctrl.IsAuth()"><a href="#" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li ng-if="!main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <li ng-if="main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                <li><a ui-sref="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              </ul>
+            </div>
+            <div ng-if="main_ctrl.AuthenticationService.IsAuth()">
+              <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
+                <li><a role="button" ng-click="main_ctrl.AuthenticationService.Logout()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
               </ul>
             </div>
         </div>
-        <div ng-if="main_ctrl.IsAuth()">
+        <div ng-if="main_ctrl.AuthenticationService.IsAuth()">
             <div ng-include src="'/views/navbar.view.html'"></div>
         </div>
         <div class="col-xs-6" ui-view></div>
     </div>
 
     <script src="js/bundle.js"></script>
+    <script src="js/elif.js"></script>
     <script src="/bower_components/moment/moment.js"></script>
     <script src="/bower_components/malarkey/dist/malarkey.min.js"></script>
 

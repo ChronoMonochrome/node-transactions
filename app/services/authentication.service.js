@@ -5,11 +5,13 @@
         .module('ngmkdev')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', 'Restangular', '$cookies', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, Restangular, $cookies, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$window', '$http', 'Restangular', '$cookies', '$rootScope', '$timeout', 'UserService'];
+    function AuthenticationService($window, $http, Restangular, $cookies, $rootScope, $timeout, UserService) {
+        var vm = this;
         var service = {};
 
         service.Login = Login;
+        service.Logout = Logout;
         service.IsAuth = IsAuth;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
@@ -76,6 +78,11 @@
             $rootScope.globals = {};
             $cookies.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
+        }
+
+        function Logout() {
+            ClearCredentials();
+            $window.location.href = '/';
         }
     }
 

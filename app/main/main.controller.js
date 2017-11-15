@@ -3,12 +3,10 @@
 
     angular
     .module('ngmkdev')
-    .controller('MainController', 
+    .controller('MainController',
     function MainController($location, AuthenticationService, FlashService) {
         var vm = this;
 
-        vm.IsAuth = function() {
-            return AuthenticationService.IsAuth();
-        }
+        vm.AuthenticationService = AuthenticationService;
     });
 })();
