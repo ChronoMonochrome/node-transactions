@@ -38,15 +38,21 @@
         }
 
         function GetByUsername(username) {
-            var res;
-
             if (!username)
                 return undefined;
 
-            res = Restangular.one('/api/users/user/', username).get();
-            res.then(handleSuccess, handleError('Error getting user by username'));
+            return Restangular.one('/api/users/user/', username).get()
+                   .then(function(response) {
+                       var ret;
 
-            return res.$object;
+                       if (response == undefined)
+                           return {success: true};
+
+                       ret = response.plain();
+                       ret.success = true;
+                       return ret;
+                   },
+                   handleError('Error getting user by username'));
         }
 
         function Create(user) {
