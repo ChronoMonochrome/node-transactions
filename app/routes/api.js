@@ -8,10 +8,15 @@ var mongoClient = mongodb.MongoClient;
 var objectId = mongodb.ObjectID;
 
 var jsonParser = bodyParser.json();
-var url = "mongodb://localhost:27017/transactions";
+var url = "mongodb://localhost/transactions";
 
 module.exports = function(app) {
     app.get("/api/transactions", function(req, res) {
+        //console.log(req.session);
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         mongoClient.connect(url, function(err, db) {
             try {
                 db.collection("transactions").find({}).toArray(function(err, transactions) {
@@ -24,7 +29,11 @@ module.exports = function(app) {
         });
     });
     app.get("/api/transactions/:id", function(req, res) {
+
         var id;
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
 
         if (req.params.id == undefined || !parseInt(req.params.id, 10))
             return res.status(400).send();
@@ -44,11 +53,12 @@ module.exports = function(app) {
     });
 
     app.post("/api/transactions", jsonParser, function(req, res) {
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         if (!req.body) return res.sendStatus(400);
-        //console.log(req.body);
 
         var transactionAmount = req.body.transaction.amount;
-        //console.log(req.body.transaction.amount);
         var transactionDate = req.body.transaction.date;
         var transaction = {
             amount: transactionAmount,
@@ -70,6 +80,9 @@ module.exports = function(app) {
 
         var id;
 
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         if (req.params.id == undefined || !parseInt(req.params.id, 10))
             return res.status(400).send();
 
@@ -89,6 +102,9 @@ module.exports = function(app) {
     });
 
     app.put("/api/transactions", jsonParser, function(req, res) {
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
 
         if (!req.body) return res.sendStatus(400);
         var id = new objectId(req.body.transaction.id);
@@ -117,6 +133,10 @@ module.exports = function(app) {
     });
 
     app.get("/api/users", function(req, res) {
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         mongoClient.connect(url, function(err, db) {
             try {
                 db.collection("users").find({}).toArray(function(err, users) {
@@ -131,6 +151,9 @@ module.exports = function(app) {
 
     app.get("/api/users/:id", function(req, res) {
         var id;
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
 
         if (req.params.id == undefined || !parseInt(req.params.id, 10))
             return res.status(400).send();
@@ -159,15 +182,24 @@ module.exports = function(app) {
 
                 if (err) return res.status(400).send();
 
-                console.log("username: user = " + user);
-                res.send(user);
+                //console.log("username: user = " + user);
+
+                if (user == undefined)
+                    res.send(undefined);
+
+                // TODO: adjust this when
+                // capabilities handling is implemented
+                if (user && !req.session.capabilities)
+                    res.send({username: user.username});
+
                 db.close();
             });
         });
     });
 
     app.post("/api/authenticate", function(req, res) {
-        console.log(req.body);
+        //console.log(req.body);
+
         var username = req.body.username;
         var password = req.body.password;
 
@@ -175,7 +207,7 @@ module.exports = function(app) {
             db.collection("users").findOne({
                 username: username
             }, function(err, user) {
-                console.log(user);
+                //console.log(user);
                 if (err || user == undefined) return res.status(400).send();
 
                 uPassword = crypto.createHmac('sha256', user.salt)
@@ -183,17 +215,20 @@ module.exports = function(app) {
 
                 db.close();
 
-                if (uPassword == user.password)
-	                //res.send(user);
+                if (uPassword == user.password) {
+                    req.session.isAuth = true;
+                    res.status(200).send();
+                } else res.status(403).send();
 
-                        res.status(200).send(); // ok
-                else res.status(403).send();
                 return user;
             });
         });
     });
 
     app.post("/api/users", jsonParser, function(req, res) {
+
+        if (!req.session.isAuth)
+            return res.status(403).send();
 
         if (!req.body) return res.sendStatus(400);
 
@@ -239,6 +274,9 @@ module.exports = function(app) {
 
         var id;
 
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         if (req.params.id == undefined)
             return res.status(400).send();
 
@@ -260,7 +298,11 @@ module.exports = function(app) {
 
     app.put("/api/users", jsonParser, function(req, res) {
 
+        if (!req.session.isAuth)
+            return res.status(403).send();
+
         if (!req.body) return res.sendStatus(400);
+
         var id = new objectId(req.body.id);
 
         var uFirstName = req.body.firstName;
