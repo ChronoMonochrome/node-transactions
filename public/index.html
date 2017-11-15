@@ -42,8 +42,8 @@
             <div>
               <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
                 <li ng-if="!main_ctrl.IsAuth()"><a href="#" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li ng-if="!main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <li ng-if="main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                <li ng-if="!main_ctrl.IsAuth()"><a href="#" ><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li ng-if="main_ctrl.IsAuth()"><a ng-click="navigation_ctrl.logout()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
               </ul>
             </div>
         </div>
