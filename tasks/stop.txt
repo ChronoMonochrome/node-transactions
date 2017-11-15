@@ -1,4 +1,5 @@
 MONGO_PATH=mongo
 
 kill -s INT $(cat $MONGO_PATH/mongod.lock)
-rm $MONGO_PATH/mongod.lock
+killall -s INT node
+rm -f $MONGO_PATH/mongod.lock
