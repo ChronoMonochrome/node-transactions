@@ -9,19 +9,19 @@
         $stateProvider
         .state('transactions', {
             url: "/transactions",
-            templateUrl: "app/main/transactions.html"
+            templateUrl: "app/views/transactions.view.html"
         })
         .state('settings', {
             url: "/settings",
-            templateUrl: "app/settings/settings.html"
+            templateUrl: "app/views/settings.view.html"
         })
         .state('login', {
             url: "/login",
-            templateUrl: "app/main/login.html"
+            templateUrl: "app/views/login.view.html"
         })
         .state('register', {
             url: "/register",
-            templateUrl: "app/main/register.html",
+            templateUrl: "app/views/register.view.html",
         });
         RestangularProvider.setBaseUrl("http://localhost:8080");
 
