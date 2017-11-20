@@ -8,12 +8,22 @@
     <meta charset="utf-8">
     <title>ngmkdev</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 
     <!-- SCROLLS -->
     <link rel="stylesheet" href="/scripts/angular-toastr/dist/angular-toastr.min.css" />
     <link rel="stylesheet" href="/scripts/animate.css/animate.min.css" />
-    <link rel="stylesheet" href="/css/index.min.css" />
 
     <!-- SPELLS -->
 </head>
@@ -23,8 +33,20 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container" ng-controller="MainController as main_ctrl">
+    <div ng-controller="MainController as main_ctrl">
         <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+        <div class="menu navbar navbar-default" style="margin-bottom: 0px;">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Bootsnipp</a>
+            </div>
+            <div>
+              <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
+                <li ng-if="!main_ctrl.IsAuth()"><a href="#" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li ng-if="!main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li ng-if="main_ctrl.IsAuth()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+              </ul>
+            </div>
+        </div>
         <div ng-if="main_ctrl.IsAuth()">
             <div ng-include src="'/views/navbar.view.html'"></div>
         </div>
@@ -32,25 +54,9 @@
     </div>
 
     <script src="js/bundle.js"></script>
-    <!--
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-animate/angular-animate.js"></script>
-    <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="/bower_components/angular-messages/angular-messages.js"></script>
-    <script src="/bower_components/lodash/lodash.js"></script>
-    <script src="/bower_components/restangular/dist/restangular.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
--->
     <script src="/bower_components/moment/moment.js"></script>
     <script src="/bower_components/malarkey/dist/malarkey.min.js"></script>
-    <!--
-    <script src="js/core.js"></script> <!- - load our main application - ->
--->
 
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/app/index.module.js"></script>
 
     <script src="/app/components/webDevTec/webDevTec.service.js"></script>
@@ -77,8 +83,6 @@
     <script src="/app/index.run.js"></script>
     <script src="/app/index.constants.js"></script>
     <script src="/app/index.config.js"></script>
-
-
 </body>
 
 </html>

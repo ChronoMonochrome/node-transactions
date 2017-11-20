@@ -9,7 +9,7 @@
 
         (function initController() {
             // reset login status
-            AuthenticationService.ClearCredentials();
+            //AuthenticationService.ClearCredentials();
         })();
 
         vm.login = function() {
