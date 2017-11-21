@@ -1,6 +1,6 @@
 <!-- SET THE CONTROLLER -->
- <div class="col-md-3"" ng-controller="NavigationController as navigation_ctrl">
-   <div class="navbar navbar-default  navbar-toggleable-md" role="navigation">
+ <div ng-controller="NavigationController as navigation_ctrl" style="padding: 0%;">
+   <div class="navbar navbar-default  navbar-toggleable-md" role="navigation" style="height: 100vh;">
      <div class="navbar-header">
        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
          <span class="sr-only">Toggle navigation</span>
@@ -10,15 +10,18 @@
        </button>
        <span class="visible-xs navbar-brand">Sidebar menu</span>
      </div>
-     <div class="navbar-collapse collapse sidebar-navbar-collapse" style="padding-left: 0%; padding-right: 0%">
+     <div class="navbar-collapse collapse sidebar-navbar-collapse" style="padding-left: 0%; padding-right: 0%;">
        <ul class="nav nav-tabs nav-stacked">
-         <li class="active">
+         <li>
+             <a ui-sref="orgs"><span class="glyphicon glyphicon-user"></span> Организации</a>
+         </li>
+         <li>
              <a href="#"><span class="glyphicon glyphicon-user"></span> Пользователи</a>
          </li>
          <li><a href="#">Menu Item 2</a></li>
          <li class="dropdown">
            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-           <ul class="dropdown-menu">
+           <ul class="dropdown-menu"> <!-- style="position: static; float: none; -->
              <li><a href="#">Action</a></li>
              <li><a href="#">Another action</a></li>
              <li><a href="#">Something else here</a></li>

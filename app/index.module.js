@@ -7,6 +7,10 @@
     ])
     .config(function($stateProvider, $urlRouterProvider, RestangularProvider) {
         $stateProvider
+        .state('orgs', {
+            url: "/orgs",
+            templateUrl: "app/views/orgs.view.html"
+        })
         .state('transactions', {
             url: "/transactions",
             templateUrl: "app/views/transactions.view.html"
