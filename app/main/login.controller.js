@@ -4,8 +4,10 @@
     angular
     .module('ngmkdev')
     .controller('LoginController',
-    function LoginController($location, AuthenticationService, FlashService) {
+    function LoginController($window, AuthenticationService, FlashService) {
         var vm = this;
+
+        vm.AuthenticationService = AuthenticationService;
 
         vm.login = function() {
             vm.dataLoading = true;
@@ -13,7 +15,7 @@
             AuthenticationService.Login(vm.username, vm.password, function (response) {
                 if (response.success) {
                     AuthenticationService.SetCredentials(vm.username, vm.password);
-                    $location.path('/');
+                    $window.location.href = '/';
                 } else {
                     FlashService.Error(response.message);
                     vm.dataLoading = false;

@@ -28,7 +28,7 @@
             templateUrl: "app/views/register.view.html",
         });
         RestangularProvider.setBaseUrl("http://localhost:8080");
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/');
     })
     .run(function run($rootScope, $location, $cookieStore, $http) {
         // keep user logged in after page refresh
@@ -43,7 +43,7 @@
             var loggedIn = $rootScope.globals.currentUser;
             if (restrictedPage && !loggedIn)
                 $location.path('/login');
-            if (loggedIn) $location.path('/transactions');
+            //if (loggedIn) $location.path('/transactions');
         });
     });
 })();
