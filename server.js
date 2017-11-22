@@ -1,16 +1,17 @@
 // set up ======================================================================
-var config = require('./libs/config');
+require('dotenv').config();
+require('magic-globals');
 var express = require('express');
-var app = express(); 						// create our app w/ express
-//var nodeadmin = require('nodeadmin');
 var mongoose = require('mongoose'); 				// mongoose for mongodb
-var port = process.env.PORT || 8080; 				// set the port
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
+var config = require('./libs/config');
+var models = require('./app/models/');
 
+var app = express(); 						// create our app w/ express
 //app.use(nodeadmin(app));
 //app.use(express.static('./public')); 		// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); // log every request to the console
@@ -31,10 +32,9 @@ app.use(session({
 
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
 
-
 // routes ======================================================================
 require('./app/routes.js')(app);
 
 // listen (start app with node server.js) ======================================
-app.listen(port);
-console.log("App listening on port " + port);
+app.listen(config.port);
+console.log("App listening on port " + config.port);
