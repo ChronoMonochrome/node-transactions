@@ -11,7 +11,6 @@
 
         service.Success = Success;
         service.Error = Error;
-        service.Hide = Hide;
 
         initService();
 
@@ -49,10 +48,6 @@
                 type: 'error',
                 keepAfterLocationChange: keepAfterLocationChange
             };
-        }
-
-        function Hide() {
-           $rootScope.flash = {};
         }
     }
 
