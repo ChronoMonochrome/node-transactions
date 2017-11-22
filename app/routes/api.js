@@ -226,10 +226,6 @@ module.exports = function(app) {
     });
 
     app.post("/api/users", jsonParser, function(req, res) {
-
-        if (!req.session.isAuth)
-            return res.status(403).send();
-
         if (!req.body) return res.sendStatus(400);
 
         var uFirstName = req.body.user.firstName;
