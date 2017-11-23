@@ -1,14 +1,17 @@
 <script type="text/ng-template" id="tree_item_renderer.html">
-  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ng-class="{'nav-link nav-toggle': item.subItems && item.subItems.length > 0}">
-       <span class="title">inner {{item.text}}<b class="caret"></b></span>
+<!--  {{mytest}} -->
+   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.subItems" >
+       <span class="title">{{item.text}}<b class="caret"></b></span>
    </a>
+    <span ng-if="item.subItems == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
    <!--
   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> {{item.text}} <b class="caret"></b></a>
 -->
-  <ul class="dropdown-menu" style="position: static; float: none;">
-      <li class="dropdown" ng-if="item.subItems.length != 0" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'tree_item_renderer.html'">
+<!--  <p ng-if="item.subItems == undefined"> undefined </p> -->
+  <ul class="dropdown-menu" style="position: static; float: none;" ng-if="item.subItems.length != 0"  ng-init="mytest=mytest+1">
+      <li class="dropdown" ng-if="item.subItems.length != 0" ng-repeat="item in item.subItems" ng-include="'tree_item_renderer.html'">
       </li>
-      <li ng-if="item.subItems.length == 0" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'tree_item_renderer.html'">
+      <li ng-if="item.subItems.length == 0" ng-repeat="item in item.subItems" ng-include="'tree_item_renderer.html'">
       </li>
   </ul>
 </script>
@@ -17,14 +20,15 @@
     <div class="container-fluid">
         <h2>Организации</h2>
         <div class="dropdown keep-open">
-            <ul data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-                <li ng-repeat="item in orgs_ctrl.menuItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" class="dropdown">
-                    <a href="javascript:void(0);" ng-class="{'nav-link nav-toggle': item.subItems && item.subItems.length > 0}" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="title">{{item.text}}</span><b class="caret"></b>
-                  </a>
-                    <ul ng-if="item.subItems && item.subItems.length > 0" class="dropdown-menu" style="position: static; float: none;">
+            <ul class="dropdown-menu" style="display: block;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                <li ng-repeat="item in orgs_ctrl.menuItems" class="dropdown">
+                   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.subItems" >
+                       <span class="title">{{item.text}}<b class="caret"></b></span>
+                   </a>
+                   <span ng-if="item.subItems == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
 
-                        <li class="dropdown" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'tree_item_renderer.html'">
+                    <ul ng-if="item.subItems && item.subItems.length > 0" class="dropdown-menu" style="position: static; float: none;">
+                        <li class="dropdown" ng-repeat="item in item.subItems" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">
                         </li>
                     </ul>
                 </li>
@@ -37,9 +41,11 @@
     $(document).ready(function() {
         $('.dropdown a.dropdown-toggle').on("click", function(e) {
             $(this).next('ul').toggle();
+            //console.dir();
+            //$(this).find("b").attr("class", "caret-right");
             e.stopPropagation();
             e.preventDefault();
-            console.log("clicked");
+            //console.log("clicked");
         });
     });
 </script>

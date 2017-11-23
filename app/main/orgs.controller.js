@@ -3,57 +3,28 @@ angular.module("ngmkdev").controller('OrgsController',
         var vm = this;
 
         vm.menuItems = [{
-                "isNavItem": true,
                 "href": "#/dashboard.html",
                 "text": "Dashboard"
             },
             {
-                "isNavItem": true,
                 "href": "javascript:;",
                 "text": "AngularJS Features",
-                "subItems": [{
+                "subItems": [
+                    {
                         "href": "#/ui_bootstrap.html",
-                        "text": " UI Bootstrap"
-                    },
-                    {
-                        "subItems": [{
-                                "href": "#/ui_bootstrap.html",
-                                "text": " Nested UI Bootstrap"
-                            },
-
-                        ]
-                    },
-
-
-                ]
-            },
-            {
-                "isNavItem": true,
-                "href": "javascript:;",
-                "text": "jQuery Plugins",
-                "subItems": [{
-                        "href": "#/form-tools",
-                        "text": " Form Tools"
-                    },
-                    {
-                        "isNavItem": true,
-                        "href": "javascript:;",
-                        "text": " Datatables",
-                        "subItems": [{
-                                "href": "#/datatables/managed.html",
-                                "text": " Managed Datatables"
-                            },
+                        "text": " UI Bootstrap 11 (nested)",
+                        "subItems": [
                             {
+                                "href": "#/ui_bootstrap.html",
+                                "text": " UI Bootstrap 11 (nested)",
                                 "subItems": [{
                                         "href": "#/ui_bootstrap.html",
-                                        "text": " Nested nested UI Bootstrap"
-                                    },
-
+                                        "text": " Nested UI Bootstrap"
+                                    }
                                 ]
                             },
-
                         ]
-                    }
+                    },
                 ]
             }
         ];
