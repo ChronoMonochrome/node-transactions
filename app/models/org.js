@@ -10,9 +10,11 @@ module.exports = function(orm, db) {
                 parent_id: {
                     type: 'serial'
                 },
-                type: Number,
+                type_id: Number,
+                form_id: Number,
+                depth: Number,
+                inn: String,
                 name: String,
                 shortname: String,
-                password: String,
             };
         }
