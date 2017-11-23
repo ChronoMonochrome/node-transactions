@@ -56,7 +56,7 @@ config.mysql = {
   host     : process.env.MYSQL_DB_HOST,
   database : process.env.MYSQL_DB_NAME,
   user     : process.env.MYSQL_DB_USER,
-  password : process.env.MYSQL_DB_NAME,
+  password : process.env.MYSQL_DB_PASS,
 }
 
 module.exports = config;

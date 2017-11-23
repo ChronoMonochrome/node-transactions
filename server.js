@@ -18,6 +18,17 @@ app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
+app.use(function (req, res, next) {
+  models(function (err, db) {
+    if (err) return next(err);
+
+    req.models = db.models;
+    req.db     = db;
+
+    return next();
+  });
+}),
+
 app.use(cookieParser(config.session.secret));
 
 var sessionStore = require('./libs/sessionStore');

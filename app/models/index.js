@@ -12,13 +12,13 @@ function setup(db, cb) {
 
 module.exports = function(cb) {
     if (connection) return cb(null, connection);
-
+    
     orm.connect(config.mysql, function(err, db) {
         if (err) return cb(err);
 
         connection = db;
         db.settings.set('instance.returnAllErrors', true);
-        console.log("hello from: ");
+        //console.log("hello from: ");
         setup(db, cb);
     });
 };
