@@ -1,4 +1,1 @@
-sudo mongod --dbpath $MONGO_PATH 2>&1 > mongo.log &
-
-sleep 0.5 && nodemon server.js
-#2>&1 > node.log &
+nodemon server.js
