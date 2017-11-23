@@ -2,29 +2,30 @@
     <div class="container-fluid">
         <h2>Организации</h2>
         <div class="dropdown keep-open">
-          <ul data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-              <li ng-repeat="item in orgs_ctrl.menuItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" class="dropdown">
-                  <a href="{{item.href}}" ng-class="{'nav-link nav-toggle': item.subItems && item.subItems.length > 0}">
+            <ul data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+                <li ng-repeat="item in orgs_ctrl.menuItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" class="dropdown">
+                    <a href="{{item.href}}" ng-class="{'nav-link nav-toggle': item.subItems && item.subItems.length > 0}">
                     <span class="title">{{item.text}}</span>
                   </a>
-                  <a ng-if="item.subItems && item.subItems.length > 0" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> <b class="caret"></b></a>
-                  <ul ng-if="item.subItems && item.subItems.length > 0" class="sub-menu dropdown-menu" style="position: static; float: none;">
+                    <a ng-if="item.subItems && item.subItems.length > 0" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> <b class="caret"></b></a>
+                    <ul ng-if="item.subItems && item.subItems.length > 0" class="dropdown-menu" style="position: static; float: none;">
 
-                      <li class="dropdown" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}">
-                          <a href="{{item.href}}" ng-class="{'nav-link nav-toggle': item.subItems && item.subItems.length > 0}">
-                            <span class="title">{{item.text}}</span>
-                          </a>
-
-                          <div ng-switch on="item.subItems.length > 0">
-                              <div ng-switch-when="true">
-                                  <div ng-init="subItems = item.subItems;" ng-include="'/views/orgs.partial.html'"></div>
-                              </div>
-                          </div>
-
-                      </li>
-                  </ul>
-              </li>
-          </ul>
-      </div>
+                        <li class="dropdown" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'/views/orgs.partial.html'">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.dropdown a.dropdown-toggle').on("click", function(e) {
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+            console.log("clicked");
+        });
+    });
+</script>
