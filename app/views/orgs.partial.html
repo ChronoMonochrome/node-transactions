@@ -1,8 +1,0 @@
-<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> {{item.text}} <b class="caret"></b></a>
-
-<ul class="dropdown-menu" style="position: static; float: none;">
-    <li class="dropdown" ng-if="item.subItems.length != 0" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'/views/orgs.partial.html'">
-    </li>
-    <li ng-if="item.subItems.length == 0" ng-repeat="item in item.subItems" ng-class="{'start': item.isStart, 'nav-item': item.isNavItem}" ng-init="subItems = item.subItems;" ng-include="'/views/orgs.partial.html'">
-    </li>
-</ul>
