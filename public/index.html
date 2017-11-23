@@ -15,7 +15,7 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="css/navbar.view.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -37,24 +37,24 @@
         <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
         <div class="menu navbar navbar-default" style="margin-bottom: 0px;">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">Bootsnipp</a>
+                <a class="navbar-brand" href="#">Bootsnipp</a>
             </div>
             <div ng-if="!main_ctrl.AuthenticationService.IsAuth()">
-              <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
-                <li><a ui-sref="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-              </ul>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
+                    <li><a ui-sref="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
             </div>
             <div ng-if="main_ctrl.AuthenticationService.IsAuth()">
-              <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
-                <li><a role="button" ng-click="main_ctrl.AuthenticationService.Logout()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-              </ul>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 3%; margin-left: 3%">
+                    <li><a role="button" ng-click="main_ctrl.AuthenticationService.Logout()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                </ul>
             </div>
         </div>
-        <div class="col-md-3" ng-if="main_ctrl.AuthenticationService.IsAuth()" style="padding-left: 0%; padding-right: 0%; height: 100vh;">
+        <div class="col-md-3 col-lg-2" ng-if="main_ctrl.AuthenticationService.IsAuth()" style="padding-left: 0%; padding-right: 0%; height: 100vh;">
             <div ng-include src="'/views/navbar.view.html'"></div>
         </div>
-        <div class="col-md-9" ui-view style="padding-left: 0%; padding-right: 0%; height: 100vh;"></div>
+        <div class="col-md-9 col-lg-10" ui-view style="padding-left: 0%; padding-right: 0%; height: 100vh;"></div>
     </div>
 
     <script src="js/bundle.js"></script>
@@ -66,12 +66,13 @@
     <script src="/app/components/webDevTec/webDevTec.service.js"></script>
     <script src="/app/components/malarkey/malarkey.directive.js"></script>
     <script src="/app/components/githubContributor/githubContributor.service.js"></script>
-
+    <script src="/app/services/orgs_store.service.js"></script>
     <script src="/app/services/transactions_store.service.js"></script>
     <script src="/app/services/authentication.service.js"></script>
     <script src="/app/services/flash.service.js"></script>
 
     <script src="/app/main/main.controller.js"></script>
+    <script src="/app/main/orgs.controller.js"></script>
     <script src="/app/main/transactions.controller.js"></script>
     <script src="/app/main/navigation.controller.js"></script>
 
@@ -87,6 +88,7 @@
     <script src="/app/index.run.js"></script>
     <script src="/app/index.constants.js"></script>
     <script src="/app/index.config.js"></script>
+
 </body>
 
 </html>

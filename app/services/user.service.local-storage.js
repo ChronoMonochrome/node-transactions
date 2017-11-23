@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -6,6 +6,7 @@
         .factory('UserService', UserService);
 
     UserService.$inject = ['Restangular'];
+
     function UserService(Restangular) {
         var service = {};
 
@@ -19,86 +20,70 @@
         return service;
 
         function GetAll() {
-            var res = Restangular.all('/api/users').getList();
-            res.then(handleSuccess, handleError('Error getting all users'));
-
-            return res.$object;
+            return Restangular.all('/api/users').getList()
+                .then(handleSuccess, handleError('Error getting all users'));
         }
 
         function GetById(id) {
-            var res;
-
-            if (!parseInt(id))
-                return undefined;
-
-            res = Restangular.one('/api/users/', id).get();
-            res.then(handleSuccess, handleError('Error getting user by id'));
-
-            return res.$object;
+            return Restangular.one('/api/users/', id).get()
+                .then(handleSuccess, handleError('Error getting user by id'));
         }
 
         function GetByUsername(username) {
-            if (!username)
-                return undefined;
-
             return Restangular.one('/api/users/user/', username).get()
-                   .then(function(response) {
-                       var ret;
-
-                       if (response == undefined)
-                           return {success: true};
-
-                       ret = response.plain();
-                       ret.success = true;
-                       return ret;
-                   },
-                   handleError('Error getting user by username'));
+                .then(handleSuccess, handleError('Error getting user by username'));
         }
 
         function Create(user) {
-            var res = Restangular.all('/api/users').post({user: user});
-            res.then(handleSuccess, handleCreateError('Error creating user'));
-
-            return res.$object;
+            return Restangular.all('/api/users').post({
+                    user: user
+                })
+                .then(handleSuccess, handleCreateError('Error creating user'));
         }
 
         function Update(user) {
-            var res = Restangular.one('/api/users/', user.id).put({user: user});
-            res.then(handleSuccess, handleError('Error updating user'));
-
-            return res.$object;
+            return Restangular.one('/api/users/', user.id).put({
+                    user: user
+                })
+                .then(handleSuccess, handleError('Error updating user'));
         }
 
         function Delete(id) {
-            var res = Restangular.one('/api/users/', id).remove();
-            res.then(handleSuccess, handleError('Error deleting user'));
-
-            return res.$object;
+            return Restangular.one('/api/users/', id).remove()
+                .then(handleSuccess, handleError('Error deleting user'));
         }
 
         // private functions
 
         function handleSuccess(res) {
             //console.log(res);
-            return { success: true };
+            return {
+                success: true
+            };
         }
 
         function handleError(error) {
             //console.log(error);
-            return function (res) {
+            return function(res) {
                 //console.log(res);
-                return { success: false, message: error };
+                return {
+                    success: false,
+                    message: error
+                };
             };
         }
 
         function handleCreateError(error) {
             //console.log(error);
-            return function (res) {
+            return function(res) {
                 //console.log(res);
                 if (res.status == 422)
                     error += ': username is already taken';
 
-                return { success: false, message: error };
+                return {
+                    success: false,
+                    message: error
+                };
             };
         }
     }

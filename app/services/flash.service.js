@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function() {
     'use strict';
 
     angular
@@ -6,19 +7,19 @@
         .factory('FlashService', FlashService);
 
     FlashService.$inject = ['$rootScope'];
+
     function FlashService($rootScope) {
         var service = {};
 
         service.Success = Success;
         service.Error = Error;
-        service.Hide = Hide;
 
         initService();
 
         return service;
 
         function initService() {
-            $rootScope.$on('$locationChangeStart', function () {
+            $rootScope.$on('$locationChangeStart', function() {
                 clearFlashMessage();
             });
 
@@ -38,7 +39,7 @@
         function Success(message, keepAfterLocationChange) {
             $rootScope.flash = {
                 message: message,
-                type: 'success', 
+                type: 'success',
                 keepAfterLocationChange: keepAfterLocationChange
             };
         }
@@ -49,10 +50,6 @@
                 type: 'error',
                 keepAfterLocationChange: keepAfterLocationChange
             };
-        }
-
-        function Hide() {
-           $rootScope.flash = {};
         }
     }
 

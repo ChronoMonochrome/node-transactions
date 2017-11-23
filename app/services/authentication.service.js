@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function() {
     'use strict';
 
     angular
@@ -6,6 +7,7 @@
         .factory('AuthenticationService', AuthenticationService);
 
     AuthenticationService.$inject = ['$window', '$http', 'Restangular', '$cookies', '$rootScope', '$timeout', 'UserService'];
+
     function AuthenticationService($window, $http, Restangular, $cookies, $rootScope, $timeout, UserService) {
         var vm = this;
         var service = {};
@@ -38,14 +40,19 @@
             /* Use this for real authentication
              ----------------------------------------------*/
             Restangular.all('/api/authenticate').post({
-                username: username, password: password
+                username: username,
+                password: password
             }).then(function(response) {
-                response = { success: true };
+                response = {
+                    success: true
+                };
 
                 callback(response);
             }).catch(function(response) {
-                response = { success: false,
-                             message: 'Username or password is incorrect' };
+                response = {
+                    success: false,
+                    message: 'Username or password is incorrect'
+                };
 
                 callback(response);
             });
@@ -71,7 +78,9 @@
             // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
             var cookieExp = new Date();
             cookieExp.setDate(cookieExp.getDate() + 7);
-            $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
+            $cookies.putObject('globals', $rootScope.globals, {
+                expires: cookieExp
+            });
         }
 
         function ClearCredentials() {
@@ -91,7 +100,7 @@
 
         keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
-        encode: function (input) {
+        encode: function(input) {
             var output = "";
             var chr1, chr2, chr3 = "";
             var enc1, enc2, enc3, enc4 = "";
@@ -125,7 +134,7 @@
             return output;
         },
 
-        decode: function (input) {
+        decode: function(input) {
             var output = "";
             var chr1, chr2, chr3 = "";
             var enc1, enc2, enc3, enc4 = "";

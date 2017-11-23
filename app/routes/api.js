@@ -190,7 +190,9 @@ module.exports = function(app) {
                 // TODO: adjust this when
                 // capabilities handling is implemented
                 if (user && !req.session.capabilities)
-                    res.send({username: user.username});
+                    res.send({
+                        username: user.username
+                    });
 
                 db.close();
             });
@@ -211,7 +213,7 @@ module.exports = function(app) {
                 if (err || user == undefined) return res.status(400).send();
 
                 uPassword = crypto.createHmac('sha256', user.salt)
-                                  .update(password).digest('hex');
+                    .update(password).digest('hex');
 
                 db.close();
 
@@ -226,19 +228,15 @@ module.exports = function(app) {
     });
 
     app.post("/api/users", jsonParser, function(req, res) {
-
-        if (!req.session.isAuth)
-            return res.status(403).send();
-
         if (!req.body) return res.sendStatus(400);
 
         var uFirstName = req.body.user.firstName;
         var uLastName = req.body.user.lastName;
         var uUsername = req.body.user.username;
-	var uSalt = Math.random() + 'salt';
+        var uSalt = Math.random() + 'salt';
         var uPassword = req.body.user.password;
-	uPassword = crypto.createHmac('sha256', uSalt)
-		          .update(uPassword).digest('hex');
+        uPassword = crypto.createHmac('sha256', uSalt)
+            .update(uPassword).digest('hex');
         var user = {
             firstName: uFirstName,
             lastName: uLastName,
@@ -310,8 +308,8 @@ module.exports = function(app) {
         var uUsername = req.body.username;
         var uSalt = Math.random() + 'salt';
         var uPassword = req.body.password;
-	uPassword = crypto.createHmac('sha256', uSalt)
-		          .update(uPassword).digest('hex');
+        uPassword = crypto.createHmac('sha256', uSalt)
+            .update(uPassword).digest('hex');
 
         mongoClient.connect(url, function(err, db) {
             db.collection("users").findOneAndUpdate({
