@@ -11,6 +11,10 @@ angular.module("ngmkdev").controller('OrgsController',
            });
         }
 
+        vm.testClick = function(index) {
+          console.log("clicked " + index);
+        }
+
         vm.loadOrgsTree = function() {
            return OrgsStore.loadOrgsTree().then(function(orgs) {
                //console.log(orgs);
