@@ -1,14 +1,16 @@
+Integer = {type: 'integer', size: 8};
+
 module.exports = function(orm, db) {
         var Org = db.define('org', {
                 id: {
                     type: 'serial',
                     key: true
                 },
-                user_id: Number,
-                parent_id: Number,
-                type_id: Number,
-                form_id: Number,
-                depth: Number,
+                user_id: Integer,
+                parent_id: Integer,
+                type_id: Integer,
+                form_id: Integer,
+                depth: Integer,
                 inn: String,
                 name: String,
                 shortname: String,
@@ -33,7 +35,10 @@ module.exports = function(orm, db) {
                      comments  : comments
                    };
 */
-                   return {name: this.name};
+                   return {
+                          id  : this.id,
+                          text: this.name
+                   };
                  }
                }
             });

@@ -1,7 +1,10 @@
 angular.module("ngmkdev").controller('OrgsController',
     function( /*$scope, */ OrgsStore) {
         var vm = this;
+        vm.orgs  = [];
 
+        vm.OrgsStore = OrgsStore;
+/*
         vm.menuItems = [{
                 "href": "#/dashboard.html",
                 "text": "Dashboard"
@@ -28,7 +31,15 @@ angular.module("ngmkdev").controller('OrgsController',
                 ]
             }
         ];
+*/
+        vm.queryOrgs = function(params) {
+           return OrgsStore.queryOrgs(params).then(function(orgs) {
+               console.log(orgs);
+               vm.menuItems = orgs;
+               //return orgs;
 
+           });
+        }
 
         vm.addOrg = function() {
             OrgsStore.addOrg(vm.newOrg).then(function(org) {
@@ -54,7 +65,7 @@ angular.module("ngmkdev").controller('OrgsController',
                 description: null
             }
         }
-
+        vm.queryOrgs({depth: 0});
         //vm.orgs = OrgsStore.loadOrgs();
         //vm.resetOrg();
     });

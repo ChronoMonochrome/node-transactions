@@ -19,6 +19,7 @@
 <div class="panel panel-default" ng-controller="OrgsController as orgs_ctrl" style="height: 100vh;">
     <div class="container-fluid">
         <h2>Организации</h2>
+        <a ng-click="orgs_ctrl.queryOrgs({depth: 0})"> click to test </a>
         <div class="dropdown keep-open">
             <ul class="dropdown-menu" style="display: block;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                 <li ng-repeat="item in orgs_ctrl.menuItems" class="dropdown">
