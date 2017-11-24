@@ -1,24 +1,4 @@
 angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
-    // private functions
-
-    function handleSuccess(res) {
-        //console.log(res);
-        return {
-            success: true
-        };
-    }
-
-    function handleError(error) {
-        //console.log(error);
-        return function(res) {
-            //console.log(res);
-            return {
-                success: false,
-                message: error
-            };
-        };
-    }
-
     return {
         orgs: [],
         queryOrgs: function(params) {

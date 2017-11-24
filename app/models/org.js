@@ -18,23 +18,6 @@ module.exports = function(orm, db) {
             {
               methods: {
                  serialize: function () {
-/*                   var comments;
-
-                   if (this.comments) {
-                     comments = this.comments.map(function (c) { return c.serialize(); });
-                   } else {
-                     comments = [];
-                   }
-*/
-/*
-                   return {
-                     id        : this.id,
-                     title     : this.title,
-                     body      : this.body,
-                     createdAt : moment(this.createdAt).fromNow(),
-                     comments  : comments
-                   };
-*/
                    return {
                           id       : this.id,
                           text     : this.name,
