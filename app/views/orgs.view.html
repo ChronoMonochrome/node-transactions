@@ -1,19 +1,15 @@
 <script type="text/ng-template" id="tree_item_renderer.html">
 <!--  {{mytest}} -->
-   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.subItems" >
+   <a toggle-next="click" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.children" >
        <span class="title">{{item.text}}<b class="caret"></b></span>
    </a>
-    <span ng-if="item.subItems == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
-   <!--
-  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> {{item.text}} <b class="caret"></b></a>
--->
-<!--  <p ng-if="item.subItems == undefined"> undefined </p> -->
-  <ul class="dropdown-menu" style="position: static; float: none;" ng-if="item.subItems.length != 0"  ng-init="mytest=mytest+1">
-      <li class="dropdown" ng-if="item.subItems.length != 0" ng-repeat="item in item.subItems" ng-include="'tree_item_renderer.html'">
+    <span ng-if="item.children == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
+    <ul class="dropdown-menu" style="position: static; float: none;" ng-if="item.children.length != 0"  ng-init="mytest=mytest+1">
+      <li class="dropdown" ng-if="item.children.length != 0" ng-repeat="item in item.children" ng-include="'tree_item_renderer.html'">
       </li>
-      <li ng-if="item.subItems.length == 0" ng-repeat="item in item.subItems" ng-include="'tree_item_renderer.html'">
+      <li ng-if="item.children.length == 0" ng-repeat="item in item.children" ng-include="'tree_item_renderer.html'">
       </li>
-  </ul>
+    </ul>
 </script>
 
 <div class="panel panel-default" ng-controller="OrgsController as orgs_ctrl" style="height: 100vh;">
@@ -23,13 +19,13 @@
         <div class="dropdown keep-open">
             <ul class="dropdown-menu" style="display: block;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                 <li ng-repeat="item in orgs_ctrl.menuItems" class="dropdown">
-                   <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.subItems" >
+                   <a toggle-next="click" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.children" >
                        <span class="title">{{item.text}}<b class="caret"></b></span>
                    </a>
-                   <span ng-if="item.subItems == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
+                   <span ng-if="item.children == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
 
-                    <ul ng-if="item.subItems && item.subItems.length > 0" class="dropdown-menu" style="position: static; float: none;">
-                        <li class="dropdown" ng-repeat="item in item.subItems" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">
+                    <ul ng-if="item.children && item.children.length > 0" class="dropdown-menu" style="position: static; float: none;">
+                        <li class="dropdown" ng-repeat="item in item.children" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">
                         </li>
                     </ul>
                 </li>
@@ -37,16 +33,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('.dropdown a.dropdown-toggle').on("click", function(e) {
-            $(this).next('ul').toggle();
-            //console.dir();
-            //$(this).find("b").attr("class", "caret-right");
-            e.stopPropagation();
-            e.preventDefault();
-            //console.log("clicked");
-        });
-    });
-</script>

@@ -36,8 +36,9 @@ module.exports = function(orm, db) {
                    };
 */
                    return {
-                          id  : this.id,
-                          text: this.name
+                          id       : this.id,
+                          text     : this.name,
+                          parent_id: this.parent_id
                    };
                  }
                }
