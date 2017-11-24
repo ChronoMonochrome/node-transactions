@@ -4,11 +4,9 @@
        <span class="title">{{item.text}}<b class="caret"></b></span>
    </a>
     <span ng-if="item.children == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
-    <ul class="dropdown-menu" style="position: static; float: none;" ng-if="item.children.length != 0"  ng-init="mytest=mytest+1">
-      <li class="dropdown" ng-if="item.children.length != 0" ng-repeat="item in item.children" ng-include="'tree_item_renderer.html'">
-      </li>
-      <li ng-if="item.children.length == 0" ng-repeat="item in item.children" ng-include="'tree_item_renderer.html'">
-      </li>
+
+    <ul ng-if="item.children.length > 0" class="dropdown-menu" style="position: static; float: none;">
+        <li class="dropdown" ng-repeat="item in item.children" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">            </li>
     </ul>
 </script>
 
@@ -18,16 +16,7 @@
         <a ng-click="orgs_ctrl.queryOrgs({depth: 0})"> click to test </a>
         <div class="dropdown keep-open">
             <ul class="dropdown-menu" style="display: block;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                <li ng-repeat="item in orgs_ctrl.menuItems" class="dropdown">
-                   <a toggle-next="click" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.children" >
-                       <span class="title">{{item.text}}<b class="caret"></b></span>
-                   </a>
-                   <span ng-if="item.children == undefined" class="title"  style="padding-top: 3px; padding-right: 20px;  padding-bottom: 3px;  padding-left: 20px;">{{item.text}}</span>
-
-                    <ul ng-if="item.children && item.children.length > 0" class="dropdown-menu" style="position: static; float: none;">
-                        <li class="dropdown" ng-repeat="item in item.children" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">
-                        </li>
-                    </ul>
+                <li ng-repeat="item in orgs_ctrl.menuItems" class="dropdown" ng-init="mytest=0" ng-include="'tree_item_renderer.html'">
                 </li>
             </ul>
         </div>
