@@ -11,6 +11,14 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
               return vm.orgs;
             });
         },
+        removeOrg: function(id) {
+            var vm = this;
+            return Restangular.one('api/orgs', id).remove().then(function() {
+              //console.log(resp.plain());
+              //console.log(vm.orgs);
+              //return vm.orgs;
+            });
+        },
         loadOrgsTree: function() {
             var vm = this;
             return Restangular.all('api/orgs').getList().then(function(resp) {
