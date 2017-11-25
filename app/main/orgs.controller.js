@@ -1,29 +1,33 @@
 angular.module("ngmkdev").controller('OrgsController',
     function( /*$scope, */ OrgsStore) {
         var vm = this;
-
-        vm.orgs  = [];
-        vm.selectedId = -1;
-
         vm.OrgsStore = OrgsStore;
+
+        vm.menuItems = [];
+
         vm.queryOrgs = function(params) {
            return OrgsStore.queryOrgs(params).then(function(orgs) {
                //console.log(orgs);
-               vm.menuItems = orgs;
+               vm.partials["treeItemRenderer"].menuItems = orgs;
            });
         }
 
         vm.selectOrg = function(index) {
           //console.log("clicked " + index);
-          if (vm.selectedId != index)
-            vm.selectedId = index;
-          else vm.selectedId = -1;
+          if (vm.partials["treeItemRenderer"].selectedId != index)
+            vm.partials["treeItemRenderer"].selectedId = index;
+          else vm.partials["treeItemRenderer"].selectedId = -1;
+        }
+
+        vm.isSelected = function(index) {
+          return vm.partials["treeItemRenderer"].selectedId == index;
         }
 
         vm.loadOrgsTree = function() {
            return OrgsStore.loadOrgsTree().then(function(orgs) {
                //console.log(orgs);
-               vm.menuItems = orgs;
+               vm.partials["treeItemRenderer"].menuItems = orgs;
+               //vm.menuItems = orgs;
            });
         }
 
@@ -56,13 +60,33 @@ angular.module("ngmkdev").controller('OrgsController',
            if (vm.selectedId == -1)
                return;
 
-           return OrgsStore.removeOrg(vm.selectedId).then(function(resp) {
-               //console.log(resp);
-               //vm.menuItems = orgs;
-               //vm.loadOrgsTree();
-               _pruneOrg(vm.menuItems, vm.selectedId);
-               vm.selectedId = -1;
+           return OrgsStore.removeOrg(vm.partials["treeItemRenderer"]
+                                     .selectedId).then(function(resp) {
+               _pruneOrg(vm.partials["treeItemRenderer"].menuItems,
+                         vm.partials["treeItemRenderer"].selectedId);
+               vm.partials["treeItemRenderer"].selectedId = -1;
            });
         }
+/*
+        vm.log = function(obj) {
+          console.dir(obj);
+        }
+*/
+        vm.partials = {
+          "delModal" : {
+              id : 'delModal',
+              action : vm.removeOrg,
+              actionText : 'Удалить'
+          },
+          "treeItemRenderer" : {
+              selectedId : -1,
+              menuItems : [],
+              ngActiveCheckFn : vm.isSelected,
+              ngClickFn : vm.selectOrg,
+          }
+        };
+
         vm.loadOrgsTree();
+        //vm.partials["treeItemRenderer"]["menuItems"] = vm.menuItems;
+        //console.log(vm.menuItems);
     });

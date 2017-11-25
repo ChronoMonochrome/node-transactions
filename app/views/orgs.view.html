@@ -1,43 +1,3 @@
-<style>
-/*
-.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
-    //background:       #a5a5a5;
-    background-color: #151515;
-}*/
-
-.dropdown-menu>li>a:hover {
-   box-shadow: 0 0 10px rgba(0,0,0,0.4), inset 0 0 1px rgba(255,255,255,0.8);
-   background: rgba(255,255,255,0.3);
-   color: rgba(255,255,255,0.9);
-   border-bottom: 1px solid rgba(255,255,255,0.9);
-}
-
-.my_active {
-   box-shadow: 0 0 10px rgba(0,0,0,0.6), inset 0 0 1px rgba(255,255,255,0.9);
-   background: rgba(255,255,255,0.3);
-   color: rgba(255,255,255,0.9);
-   border-bottom: 1px solid rgba(255,255,255,0.9);
-}
-
-.my_active, .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:active {
-   color: #444;
-   //outline: 0;
-   //text-decoration: none;
-}
-</style>
-
-<script type="text/ng-template" id="tree_item_renderer.html">
-    <a ng-class="{'my_active': orgs_ctrl.selectedId == item.id}" ng-click="orgs_ctrl.selectOrg(item.id)" role="button">{{item.text}}</a>
-    <a ng-if="item.children" toggle-next="click" type="button" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>  <!-- caret -->
-    </a>
-
-    <ul ng-if="item.children.length > 0" class="list-group dropdown-menu" style="position: static; float: none;">
-        <li class="list-group-item dropdown" ng-repeat="item in item.children" ng-include="'tree_item_renderer.html'">
-        </li>
-    </ul>
-</script>
-
 <div class="panel panel-default" ng-controller="OrgsController as orgs_ctrl" style="height: 100vh;">
     <div class="container-fluid">
         <h2>Организации</h2>
@@ -52,15 +12,12 @@
              <button type="button" ng-class="{'disabled': orgs_ctrl.selectedId == -1}" class="btn btn-default" data-toggle="modal" data-target="#delModal">Удалить</button>
           </div>
         </div>
-
-        <div class="dropdown" style="width: 100%;">
-            <ul class="list-group dropdown-menu" style="display: block; width: 100%;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                <li ng-repeat="item in orgs_ctrl.menuItems" class="list-group-item dropdown"  ng-include="'tree_item_renderer.html'">
-                </li>
-            </ul>
+        <div ng-init="thisPartial = orgs_ctrl.partials['treeItemRenderer']" ng-controller="TreeItemRenderer as tree_ctrl">
+          <div ng-include="'/partials/treeItemRenderer.partial.html'">
+          </div>
         </div>
     </div>
-    
-    <div ng-init="modalId = 'delModal'; action = orgs_ctrl.removeOrg; actionText='Удалить'" ng-include="'/partials/confirmDialog.partial.html'"></div>
+
+    <div ng-init="thisPartial = orgs_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'"></div>
 
 </div>

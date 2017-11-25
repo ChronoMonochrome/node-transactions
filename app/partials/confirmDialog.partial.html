@@ -1,4 +1,4 @@
-    <div ng-attr-id="{{modalId}}" class="modal fade" tabindex="-1">
+    <div ng-attr-id="{{thisPartial.id}}" class="modal fade" tabindex="-1">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -7,7 +7,7 @@
           </div>
           <div class="modal-body">Пожалуйста, подтвердите действие.</div>
           <div class="modal-footer">
-          <button class="btn btn-danger" ng-click="action()" data-dismiss="modal">{{actionText}}</button>
+          <button class="btn btn-danger" ng-click="thisPartial.action()" data-dismiss="modal">{{thisPartial.actionText}}</button>
           <button class="btn btn-default" data-dismiss="modal">Отмена</button>
           </div>
         </div>
