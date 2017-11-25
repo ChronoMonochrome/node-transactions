@@ -74,8 +74,11 @@ angular.module("ngmkdev").controller('OrgsController',
 */
         vm.partials = {
           "delModal" : {
-              id : 'delModal',
-              action : vm.removeOrg,
+              id         : 'delModal',
+              titleText  : 'Вы уверены?',
+              bodyText   : 'Пожалуйста, подтвердите действие.',
+              dismissText: 'Отмена',
+              action     :  vm.removeOrg,
               actionText : 'Удалить'
           },
           "treeItemRenderer" : {
