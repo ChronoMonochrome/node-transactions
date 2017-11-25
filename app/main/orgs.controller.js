@@ -1,7 +1,9 @@
 angular.module("ngmkdev").controller('OrgsController',
     function( /*$scope, */ OrgsStore) {
         var vm = this;
+
         vm.orgs  = [];
+        vm.active = -1;
 
         vm.OrgsStore = OrgsStore;
         vm.queryOrgs = function(params) {
@@ -13,6 +15,9 @@ angular.module("ngmkdev").controller('OrgsController',
 
         vm.testClick = function(index) {
           console.log("clicked " + index);
+          if (vm.active != index)
+            vm.active = index;
+          else vm.active = -1;
         }
 
         vm.loadOrgsTree = function() {
