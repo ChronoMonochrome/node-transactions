@@ -42,16 +42,16 @@
     <div class="container-fluid">
         <h2>Организации</h2>
         <div class="panel panel-default" style="width: 100%;">
-        <div class="btn-group">
+          <div class="btn-group">
              <button type="button" class="btn btn-default">Добавить</button>
-        </div>
-        <div class="btn-group">
+           </div>
+          <div class="btn-group">
              <button type="button" class="btn btn-default">Изменить</button>
+           </div>
+          <div class="btn-group">
+             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Удалить</button>
+          </div>
         </div>
-        <div class="btn-group">
-             <button type="button" ng-click="orgs_ctrl.removeOrg()" class="btn btn-default">Удалить</button>
-        </div>
-      </div>
 
         <div class="dropdown" style="width: 100%;">
             <ul class="list-group dropdown-menu" style="display: block; width: 100%;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -60,4 +60,21 @@
             </ul>
         </div>
     </div>
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">х</button>
+            <h4 class="modal-title">Вы уверены?</h4>
+          </div>
+          <div class="modal-body">Пожалуйста, подтвердите действие.</div>
+          <div class="modal-footer">
+          <button class="btn btn-danger" ng-click="orgs_ctrl.removeOrg()" data-dismiss="modal">Удалить</button>
+            <button class="btn btn-default" data-dismiss="modal">Отмена</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
