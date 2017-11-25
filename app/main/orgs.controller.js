@@ -3,7 +3,7 @@ angular.module("ngmkdev").controller('OrgsController',
         var vm = this;
 
         vm.orgs  = [];
-        vm.active = -1;
+        vm.selectedId = -1;
 
         vm.OrgsStore = OrgsStore;
         vm.queryOrgs = function(params) {
@@ -15,9 +15,9 @@ angular.module("ngmkdev").controller('OrgsController',
 
         vm.selectOrg = function(index) {
           //console.log("clicked " + index);
-          if (vm.active != index)
-            vm.active = index;
-          else vm.active = -1;
+          if (vm.selectedId != index)
+            vm.selectedId = index;
+          else vm.selectedId = -1;
         }
 
         vm.loadOrgsTree = function() {
@@ -53,15 +53,15 @@ angular.module("ngmkdev").controller('OrgsController',
         }
 
         vm.removeOrg = function() {
-           if (vm.active == -1)
+           if (vm.selectedId == -1)
                return;
 
-           return OrgsStore.removeOrg(vm.active).then(function(resp) {
+           return OrgsStore.removeOrg(vm.selectedId).then(function(resp) {
                //console.log(resp);
                //vm.menuItems = orgs;
                //vm.loadOrgsTree();
-               _pruneOrg(vm.menuItems, vm.active);
-               vm.active = -1;
+               _pruneOrg(vm.menuItems, vm.selectedId);
+               vm.selectedId = -1;
            });
         }
         vm.loadOrgsTree();
