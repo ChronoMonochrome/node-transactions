@@ -1,0 +1,42 @@
+    <div ng-attr-id="{{thisPartial.id}}" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">х</button>
+            <h4 class="modal-title">{{thisPartial.titleText}}</h4>
+          </div>
+          <!--<div class="modal-body">{{thisPartial.bodyText}}</div>-->
+          <!--<a ng-click="orgs_ctrl.log(thisPartial)">test</a> -->
+          <form name="form" role="form">
+            <div class="modal-body" style="padding: 3%">
+                  <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+                      <label for="name">Полное наименование</label>
+                      <input type="text" name="name" id="name" class="form-control" ng-model="thisPartial.bodyData.name" required />
+                      <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">name is required</span>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': form.shortname.$dirty && form.shortname.$error.required }">
+                      <label for="shortname">Краткое наименование</label>
+                      <input type="text" name="shortname" id="shortname" class="form-control" ng-model="thisPartial.bodyData.shortname" required />
+                      <span ng-show="form.shortname.$dirty && form.shortname.$error.required" class="help-block">shortname is required</span>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': form.inn.$dirty && form.inn.$error.required }">
+                      <label for="inn">ИНН</label>
+                      <input type="text" name="inn" id="inn" class="form-control" ng-model="thisPartial.bodyData.inn" />
+                      <span ng-show="form.inn.$dirty && form.inn.$error.required" class="help-block">inn is required</span>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': form.parent_id.$dirty && form.parent_id.$error.required }">
+                      <label for="parent_id">parent id</label>
+                      <input type="text" name="parent_id" id="parent_id" class="form-control" ng-model="thisPartial.bodyData.parent_id" ng-disabled="true" />
+                      <span ng-show="form.parent_id.$dirty && form.parent_id.$error.required" class="help-block">parent_id is required</span>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" ng-click="thisPartial.action()" ng-disabled="form.$invalid || thisPartial.bodyData.dataLoading" class="btn btn-default" ng-click>{{thisPartial.actionApplyText}}</button>
+                <button type="submit" ng-click="thisPartial.action()" ng-disabled="form.$invalid || thisPartial.bodyData.dataLoading" class="btn btn-primary" data-dismiss="modal">{{thisPartial.actionText}}</button>
+                <button class="btn btn-default" data-dismiss="modal">{{thisPartial.dismissText}}</button>
+                <img ng-if="thisPartial.bodyData.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

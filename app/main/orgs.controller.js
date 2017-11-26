@@ -3,8 +3,6 @@ angular.module("ngmkdev").controller('OrgsController',
         var vm = this;
         vm.OrgsStore = OrgsStore;
 
-        vm.menuItems = [];
-
         vm.queryOrgs = function(params) {
            return OrgsStore.queryOrgs(params).then(function(orgs) {
                //console.log(orgs);
@@ -21,6 +19,10 @@ angular.module("ngmkdev").controller('OrgsController',
 
         vm.isSelected = function(index) {
           return vm.partials["treeItemRenderer"].selectedId == index;
+        }
+
+        vm.getSelected = function() {
+          return vm.partials["treeItemRenderer"].selectedId;
         }
 
         vm.loadOrgsTree = function() {
@@ -56,8 +58,24 @@ angular.module("ngmkdev").controller('OrgsController',
           }
         }
 
+        _updateOrgName = function (tree, id, name) {
+           for (var i = 0; i < tree.length; ++i) {
+             var obj = tree[i];
+             if (obj.id === id) {
+               //console.log("found: " + obj);
+               tree[i].text = name;
+               return true;
+             }
+             if (obj.children) {
+               if (_updateOrgName(obj.children, id, name)) {
+                  return true;
+              }
+            }
+          }
+        }
+
         vm.removeOrg = function() {
-           if (vm.selectedId == -1)
+           if (vm.partials["treeItemRenderer"].selectedId == -1)
                return;
 
            return OrgsStore.removeOrg(vm.partials["treeItemRenderer"]
@@ -67,11 +85,47 @@ angular.module("ngmkdev").controller('OrgsController',
                vm.partials["treeItemRenderer"].selectedId = -1;
            });
         }
-/*
+
+        vm.showOrg = function() {
+          if (vm.partials["treeItemRenderer"].selectedId == -1)
+              return;
+          //console.log('showOrg');
+          //console.log('id: ' + vm.partials["treeItemRenderer"]
+          //                          .selectedId);
+          return OrgsStore.getOrg(vm.partials["treeItemRenderer"]
+                                    .selectedId).then(function(resp) {
+              //console.log('showOrg: resp = ' + resp);
+              var properties = Object.getOwnPropertyNames(
+                vm.partials["orgDialogModal"].bodyData
+              );
+
+              properties.map(function(property) {
+                vm.partials["orgDialogModal"]
+                  .bodyData[property] = resp[property];
+              });
+
+              //console.log('orgDialogModal: ' +
+              //  vm.partials["orgDialogModal"]);
+          });
+        }
+
+        vm.updateOrg = function() {
+          if (vm.partials["treeItemRenderer"].selectedId == -1)
+              return;
+
+          return OrgsStore.updateOrg(vm.partials["orgDialogModal"]
+            .bodyData).then(function() {
+              _updateOrgName(vm.partials["treeItemRenderer"].menuItems,
+                        vm.partials["treeItemRenderer"].selectedId,
+                        vm.partials["orgDialogModal"]
+                          .bodyData.name);
+            });
+        }
+
         vm.log = function(obj) {
           console.dir(obj);
         }
-*/
+
         vm.partials = {
           "delModal" : {
               id         : 'delModal',
@@ -81,11 +135,26 @@ angular.module("ngmkdev").controller('OrgsController',
               action     :  vm.removeOrg,
               actionText : 'Удалить'
           },
+          "orgDialogModal" : {
+              id         : 'orgDialogModal',
+              titleText  : 'Изменить',
+              bodyData   : {
+                id       : -1,
+                name     : '',
+                shortname: '',
+                inn      : '',
+                parent_id: -1
+              },
+              dismissText: 'Отмена',
+              action     : vm.updateOrg,
+              actionText : 'Обновить',
+              actionApplyText : 'Применить'
+          },
           "treeItemRenderer" : {
-              selectedId : -1,
-              menuItems : [],
+              selectedId      : -1,
+              menuItems       : [],
               ngActiveCheckFn : vm.isSelected,
-              ngClickFn : vm.selectOrg,
+              ngClickFn       : vm.selectOrg,
           }
         };
 

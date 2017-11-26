@@ -10,10 +10,10 @@
              <button type="button" class="btn btn-default">Добавить</button>
            </div>
           <div class="btn-group">
-             <button type="button" class="btn btn-default">Изменить</button>
+             <button type="button" ng-click="orgs_ctrl.showOrg()" ng-class="{'disabled': orgs_ctrl.isSelected(-1)}" class="btn btn-default"  data-toggle="modal" data-target="#orgDialogModal">Изменить</button>
            </div>
           <div class="btn-group">
-             <button type="button" ng-class="{'disabled': orgs_ctrl.selectedId == -1}" class="btn btn-default" data-toggle="modal" data-target="#delModal">Удалить</button>
+             <button type="button" ng-class="{'disabled': orgs_ctrl.isSelected(-1)}" class="btn btn-default" data-toggle="modal" data-target="#delModal">Удалить</button>
           </div>
         </div>
         <div ng-init="thisPartial = orgs_ctrl.partials['treeItemRenderer']" ng-controller="TreeItemRenderer as tree_ctrl">
@@ -23,6 +23,8 @@
     </div>
 
     <div ng-init="thisPartial = orgs_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'"></div>
+
+    <div ng-init="thisPartial = orgs_ctrl.partials['orgDialogModal']" ng-include="'/partials/orgDialog.partial.html'" ng-controller="OrgDialogController as org_dialog_ctrl"></div>
 
 
 </div>
