@@ -74,6 +74,31 @@ angular.module("ngmkdev").controller('OrgsController',
           }
         }
 
+        _addOrg = function (tree, parent_id, element) {
+           if (parent_id == 0 || parent_id == -1) {
+              tree.push(element);
+              return true;
+           }
+
+           for (var i = 0; i < tree.length; ++i) {
+             var obj = tree[i];
+             if (obj.id === parent_id) {
+               //console.log("found: " + obj);
+               //console.dir(tree);
+               if (obj.children == undefined)
+                   tree[i].children = [];
+
+               tree[i].children.push(element);
+               return true;
+             }
+             if (obj.children) {
+               if (_addOrg(obj.children, parent_id, element)) {
+                  return true;
+              }
+            }
+          }
+        }
+
         vm.removeOrg = function() {
            if (vm.partials["treeItemRenderer"].selectedId == -1)
                return;
@@ -96,16 +121,16 @@ angular.module("ngmkdev").controller('OrgsController',
                                     .selectedId).then(function(resp) {
               //console.log('showOrg: resp = ' + resp);
               var properties = Object.getOwnPropertyNames(
-                vm.partials["orgDialogModal"].bodyData
+                vm.partials["orgDialogUpdate"].bodyData
               );
 
               properties.map(function(property) {
-                vm.partials["orgDialogModal"]
+                vm.partials["orgDialogUpdate"]
                   .bodyData[property] = resp[property];
               });
 
-              //console.log('orgDialogModal: ' +
-              //  vm.partials["orgDialogModal"]);
+              //console.log('orgDialogUpdate: ' +
+              //  vm.partials["orgDialogUpdate"]);
           });
         }
 
@@ -113,12 +138,29 @@ angular.module("ngmkdev").controller('OrgsController',
           if (vm.partials["treeItemRenderer"].selectedId == -1)
               return;
 
-          return OrgsStore.updateOrg(vm.partials["orgDialogModal"]
+          return OrgsStore.updateOrg(vm.partials["orgDialogUpdate"]
             .bodyData).then(function() {
               _updateOrgName(vm.partials["treeItemRenderer"].menuItems,
                         vm.partials["treeItemRenderer"].selectedId,
-                        vm.partials["orgDialogModal"]
+                        vm.partials["orgDialogUpdate"]
                           .bodyData.name);
+            });
+        }
+
+        vm.createOrg = function() {
+          var parentId = vm.partials["treeItemRenderer"].selectedId;
+          if (parentId == -1)
+              parentId = 0;
+
+          vm.partials["orgDialogCreate"]
+                .bodyData.parent_id = parentId;
+
+          return OrgsStore.createOrg(vm.partials["orgDialogCreate"]
+            .bodyData).then(function(resp) {
+              //console.log("resp: " + resp);
+              _addOrg(vm.partials["treeItemRenderer"].menuItems,
+                 vm.partials["treeItemRenderer"].selectedId,
+                 resp);
             });
         }
 
@@ -135,8 +177,8 @@ angular.module("ngmkdev").controller('OrgsController',
               action     :  vm.removeOrg,
               actionText : 'Удалить'
           },
-          "orgDialogModal" : {
-              id         : 'orgDialogModal',
+          "orgDialogUpdate" : {
+              id         : 'orgDialogUpdate',
               titleText  : 'Изменить',
               bodyData   : {
                 id       : -1,
@@ -147,7 +189,21 @@ angular.module("ngmkdev").controller('OrgsController',
               },
               dismissText: 'Отмена',
               action     : vm.updateOrg,
-              actionText : 'Обновить',
+              actionText : 'Ок',
+              actionApplyText : 'Применить'
+          },
+          "orgDialogCreate" : {
+              id         : 'orgDialogCreate',
+              titleText  : 'Добавить',
+              bodyData   : {
+                name     : '',
+                shortname: '',
+                inn      : '',
+                parent_id: -1
+              },
+              dismissText: 'Отмена',
+              action     : vm.createOrg,
+              actionText : 'Ок',
               actionApplyText : 'Применить'
           },
           "treeItemRenderer" : {

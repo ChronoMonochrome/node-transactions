@@ -56,6 +56,18 @@ module.exports = function(app) {
     app.post("/api/orgs", function(req, res, next) {
             if (!req.session.isAuth)
                 return res.status(403).send();
+            //console.dir(req.body);
+            //res.status(200).send();
+            req.models.org.create(req.body.params, function (err, org) {
+                  if (err) return next(err);
+                  res.status(200).send(org.serialize());
+            });
+    });
+
+/*    // queryOrgs
+      app.post("/api/orgs", function(req, res, next) {
+            if (!req.session.isAuth)
+                return res.status(403).send();
 
             req.models.org.find(req.body.params).all(function (err, orgs) {
                   if (err) return next(err);
@@ -67,7 +79,7 @@ module.exports = function(app) {
                   res.send(arrayToTree(items));
             });
     });
-
+*/
     app.delete("/api/orgs/:id", function(req, res, next) {
             if (!req.session.isAuth)
                 return res.status(403).send();
