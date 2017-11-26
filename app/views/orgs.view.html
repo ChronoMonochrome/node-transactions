@@ -1,6 +1,10 @@
 <div class="panel panel-default" ng-controller="OrgsController as orgs_ctrl" style="height: 100vh;">
     <div class="container-fluid">
         <h2>Организации</h2>
+        <!--
+        <a ng-click="orgs_ctrl.OrgsStore.getOrg(1)">test</a>
+        <a ng-click="orgs_ctrl.OrgsStore.updateOrg({id: 1, name: 'blablabla'})">update test</a>
+      -->
         <div class="panel panel-default" style="width: 100%;">
           <div class="btn-group">
              <button type="button" class="btn btn-default">Добавить</button>
@@ -19,5 +23,6 @@
     </div>
 
     <div ng-init="thisPartial = orgs_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'"></div>
+
 
 </div>

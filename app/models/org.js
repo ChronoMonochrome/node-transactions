@@ -23,6 +23,15 @@ module.exports = function(orm, db) {
                           text     : this.name,
                           parent_id: this.parent_id
                    };
+                 },
+                 update: function(params) {
+                   for (var property in params) {
+                      if (params.hasOwnProperty(property)) {
+                          this[property] = params[property];
+                      }
+                   }
+                   
+                   return this;
                  }
                }
             });

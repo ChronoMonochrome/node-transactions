@@ -29,6 +29,30 @@ module.exports = function(app) {
             });
     });
 
+    app.get("/api/orgs/:id", function(req, res, next) {
+            if (!req.session.isAuth)
+                return res.status(403).send();
+
+            req.models.org.one({id: req.params.id}, function (err, org) {
+                  if (err) return next(err);
+                  res.status(200).send(org);
+                  //console.dir(org);
+                  //console.log(req.params);
+            });
+    });
+
+    app.put("/api/orgs/:id", function(req, res, next) {
+            if (!req.session.isAuth)
+                return res.status(403).send();
+
+            req.models.org.find({id: req.params.id}).each(function (org) {
+                org = org.update(req.body.params);
+            }).save(function (err) {
+	                if (err) return next(err);
+                  res.status(200).send();
+            });
+    });
+
     app.post("/api/orgs", function(req, res, next) {
             if (!req.session.isAuth)
                 return res.status(403).send();
@@ -52,7 +76,7 @@ module.exports = function(app) {
                   if (err) return next(err);
                   return org.remove(function (err) { // callback optional
                       if (!err) {
-                         console.log("removed!");
+                         //console.log("removed!");
                          res.sendStatus(200);
                       } else {
                          console.log(err);
