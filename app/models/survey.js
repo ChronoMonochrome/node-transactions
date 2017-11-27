@@ -1,7 +1,7 @@
 Integer = {type: 'integer', size: 8};
 
 module.exports = function(orm, db) {
-      var Survey = db.define('Survey', {
+      var Survey = db.define('survey', {
                 id: {
                     type: 'serial',
                     key: true
@@ -20,7 +20,7 @@ module.exports = function(orm, db) {
             }
       );
 
-      var ParameterGroup = db.define('ParameterGroup', {
+      var ParameterGroup = db.define('parameterGroup', {
                 id: {
                     type: 'serial',
                     key: true
@@ -41,7 +41,7 @@ module.exports = function(orm, db) {
             }
       );
 
-      var ParameterForm = db.define('ParameterForm', {
+      var ParameterForm = db.define('parameterForm', {
                 id: {
                     type: 'serial',
                     key: true
@@ -60,7 +60,7 @@ module.exports = function(orm, db) {
             }
       );
 
-      var ParameterType = db.define('ParameterType', {
+      var ParameterType = db.define('parameterType', {
                 id: {
                     type: 'serial',
                     key: true
@@ -79,7 +79,7 @@ module.exports = function(orm, db) {
             }
       );
 
-      var Parameter = db.define('Parameter', {
+      var Parameter = db.define('parameter', {
                 id: {
                     type: 'serial',
                     key: true
@@ -106,7 +106,7 @@ module.exports = function(orm, db) {
             }
       );
 
-      var ParameterData = db.define('ParameterData', {
+      var ParameterData = db.define('parameterData', {
               id: {
                   type: 'serial',
                   key: true
@@ -134,7 +134,6 @@ module.exports = function(orm, db) {
       Parameter.hasOne("survey", Survey);
 
       ParameterGroup.hasOne("survey", Survey);
-
 
       // add the table to the database
       db.sync(function(err) {
