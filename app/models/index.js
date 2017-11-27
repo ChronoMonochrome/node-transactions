@@ -6,13 +6,14 @@ var connection = null;
 
 function setup(db, cb) {
     require('./org')(orm, db);
+    require('./survey')(orm, db);
 
     return cb(null, db);
 }
 
 module.exports = function(cb) {
     if (connection) return cb(null, connection);
-    
+
     orm.connect(config.mysql, function(err, db) {
         if (err) return cb(err);
 
