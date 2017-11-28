@@ -4,18 +4,21 @@ Integer = {
 };
 
 module.exports = function(orm, db) {
+    console.log("suirvey.js");
     var Survey = db.define('survey', {
         id: {
             type: 'serial',
             key: true
         },
+        parent_id: Integer,
         name: String,
     }, {
         methods: {
             serialize: function() {
                 return {
                     id: this.id,
-                    name: this.name,
+                    parent_id: this.parent_id,
+                    name: this.name
                 };
             },
         }

@@ -6,7 +6,7 @@
         <a ng-click="orgs_ctrl.OrgsStore.updateOrg({id: 1, name: 'blablabla'})">update test</a>
       -->
         <div class="panel panel-default" style="width: 100%;">
-            <div ng-init="thisPartial = form_ctrl.partials['orgActionPanel']" ng-include="'/partials/actionPanel.partial.html'" ng-controller="ElementController as el_ctrl"></div>
+            <div ng-init="thisPartial = form_ctrl.FormsStore.partials['surveyActionPanel']" ng-include="'/partials/actionPanel.partial.html'" ng-controller="ElementController as el_ctrl"></div>
             <!--
         <div ng-init="thisPartial = orgs_ctrl.partials['treeItemRenderer']" ng-controller="TreeItemRenderer as tree_ctrl">
           <div ng-include="'/partials/treeItemRenderer.partial.html'">
@@ -15,8 +15,8 @@
       -->
         </div>
 
-        <div ng-init="thisPartial = form_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
-        <div ng-init="thisPartial = form_ctrl.partials['formDialogUpdate']" ng-include="'/partials/formDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
-        <div ng-init="thisPartial = form_ctrl.partials['formDialogCreate']" ng-include="'/partials/formDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
+        <div ng-init="thisPartial = form_ctrl.FormsStore.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
+        <div ng-init="thisPartial = form_ctrl.FormsStore.partials['surveyDialogUpdate']" ng-include="'/partials/surveyDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
+        <div ng-init="thisPartial = form_ctrl.FormsStore.partials['surveyDialogCreate']" ng-include="'/partials/surveyDialog.partial.html'" ng-controller="FormDialogController as form_dialog_ctrl"></div>
 
     </div>

@@ -10,19 +10,9 @@
             <form name="form" role="form">
                 <div class="modal-body" style="padding: 3%">
                     <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-                        <label for="name">Полное наименование</label>
+                        <label for="name">Название</label>
                         <input type="text" name="name" id="name" class="form-control" ng-model="thisPartial.bodyData.name" required />
                         <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">name is required</span>
-                    </div>
-                    <div class="form-group" ng-class="{ 'has-error': form.shortname.$dirty && form.shortname.$error.required }">
-                        <label for="shortname">Краткое наименование</label>
-                        <input type="text" name="shortname" id="shortname" class="form-control" ng-model="thisPartial.bodyData.shortname" required />
-                        <span ng-show="form.shortname.$dirty && form.shortname.$error.required" class="help-block">shortname is required</span>
-                    </div>
-                    <div class="form-group" ng-class="{ 'has-error': form.inn.$dirty && form.inn.$error.required }">
-                        <label for="inn">ИНН</label>
-                        <input type="text" name="inn" id="inn" class="form-control" ng-model="thisPartial.bodyData.inn" />
-                        <span ng-show="form.inn.$dirty && form.inn.$error.required" class="help-block">inn is required</span>
                     </div>
                     <div class="form-group" ng-class="{ 'has-error': form.parent_id.$dirty && form.parent_id.$error.required }">
                         <label for="parent_id">parent id</label>

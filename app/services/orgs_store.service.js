@@ -1,10 +1,13 @@
-angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStorage) {
-    var vm = this;
+angular.module('ngmkdev').factory('OrgsStore', function($localStorage, Restangular, TreeItemsLibService) {
     var service = {};
 
     service.storage = $localStorage.$default({
-      treeItemsState: {}
+      orgs_store : {
+         treeItemsState: {}
+      }
     });
+
+    service.service._storage = service.storage.orgs_store;
 
     service._getOrg = function(id) {
         return Restangular.one('api/orgs', id).get().then(function(resp) {
@@ -61,28 +64,28 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStora
 
     service.selectOrg = function(index) {
         //console.log("clicked " + index);
-        if (service.storage.treeItemsState.selectedId != index)
-            service.storage.treeItemsState.selectedId = index;
-        else service.storage.treeItemsState.selectedId = -1;
+        if (service._storage.treeItemsState.selectedId != index)
+            service._storage.treeItemsState.selectedId = index;
+        else service._storage.treeItemsState.selectedId = -1;
     }
 
     service.toggleCb = function(index) {
-        service.storage.treeItemsState[index] = !service.storage.treeItemsState[index];
-        //console.log(service.storage.treeItemsState);
+        service._storage.treeItemsState[index] = !service._storage.treeItemsState[index];
+        //console.log(service._storage.treeItemsState);
     }
 
     service.isListOpen = function(index) {
         //console.log(index);
-        return service.storage.treeItemsState[index];
+        return service._storage.treeItemsState[index];
     }
 
     service.isSelected = function(index) {
         if (index == undefined) index = -1;
-        return service.storage.treeItemsState.selectedId == index;
+        return service._storage.treeItemsState.selectedId == index;
     }
 
     service.getSelected = function() {
-        return service.storage.treeItemsState.selectedId;
+        return service._storage.treeItemsState.selectedId;
     }
 
     service.loadOrgsTree = function() {
@@ -93,86 +96,25 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStora
         });
     }
 
-    service._pruneOrg = function(tree, id) {
-        for (var i = 0; i < tree.length; ++i) {
-            var obj = tree[i];
-            if (obj.id === id) {
-                // splice out 1 element starting at position i
-                tree.splice(i, 1);
-                return true;
-            }
-            if (obj.children) {
-                if (service._pruneOrg(obj.children, id)) {
-                    if (obj.children.length === 0) {
-                        // delete children property when empty
-                        delete obj.children;
-                    }
-                    return true;
-                }
-            }
-        }
-    }
-
-    service._updateOrgName = function(tree, id, name) {
-        for (var i = 0; i < tree.length; ++i) {
-            var obj = tree[i];
-            if (obj.id === id) {
-                //console.log("found: " + obj);
-                tree[i].text = name;
-                return true;
-            }
-            if (obj.children) {
-                if (service._updateOrgName(obj.children, id, name)) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    service._addOrg = function(tree, parent_id, element) {
-        if (parent_id == 0 || parent_id == -1) {
-            tree.push(element);
-            return true;
-        }
-
-        for (var i = 0; i < tree.length; ++i) {
-            var obj = tree[i];
-            if (obj.id === parent_id) {
-                //console.log("found: " + obj);
-                //console.dir(tree);
-                if (obj.children == undefined)
-                    tree[i].children = [];
-
-                tree[i].children.push(element);
-                return true;
-            }
-            if (obj.children) {
-                if (service._addOrg(obj.children, parent_id, element)) {
-                    return true;
-                }
-            }
-        }
-    }
-
     service.removeOrg = function() {
-        if (service.storage.treeItemsState.selectedId == -1)
+        if (service._storage.treeItemsState.selectedId == -1)
             return;
 
         return service._removeOrg(service.partials["treeItemRenderer"]
             .selectedId).then(function(resp) {
-            service._pruneOrg(service.partials["treeItemRenderer"].menuItems,
-                service.storage.treeItemsState.selectedId);
-            service.storage.treeItemsState.selectedId = -1;
+            TreeItemsLibService.pruneItem(service.partials["treeItemRenderer"].menuItems,
+                service._storage.treeItemsState.selectedId);
+            service._storage.treeItemsState.selectedId = -1;
         });
     }
 
     service.showOrg = function() {
-        if (service.storage.treeItemsState.selectedId == -1)
+        if (service._storage.treeItemsState.selectedId == -1)
             return;
         //console.log('showOrg');
         //console.log('id: ' + service.partials["treeItemRenderer"]
         //                          .selectedId);
-        return service._getOrg(service.partials["treeItemRenderer"]
+        return service._getOrg(service._storage.treeItemsState
             .selectedId).then(function(resp) {
             //console.log('showOrg: resp = ' + resp);
             var properties = Object.getOwnPropertyNames(
@@ -190,20 +132,20 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStora
     }
 
     service.updateOrg = function() {
-        if (service.storage.treeItemsState.selectedId == -1)
+        if (service._storage.treeItemsState.selectedId == -1)
             return;
 
         return service._updateOrg(service.partials["orgDialogUpdate"]
             .bodyData).then(function() {
-            service._updateOrgName(service.partials["treeItemRenderer"].menuItems,
-                service.storage.treeItemsState.selectedId,
+            TreeItemsLibService.updateItemName(service.partials["treeItemRenderer"].menuItems,
+                service._storage.treeItemsState.selectedId,
                 service.partials["orgDialogUpdate"]
                 .bodyData.name);
         });
     }
 
     service.createOrg = function() {
-        var parentId = service.storage.treeItemsState.selectedId;
+        var parentId = service._storage.treeItemsState.selectedId;
         if (parentId == -1)
             parentId = 0;
 
@@ -213,8 +155,8 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStora
         return service._createOrg(service.partials["orgDialogCreate"]
             .bodyData).then(function(resp) {
             //console.log("resp: " + resp);
-            service._addOrg(service.partials["treeItemRenderer"].menuItems,
-                service.storage.treeItemsState.selectedId,
+            TreeItemsLibService.addItem(service.partials["treeItemRenderer"].menuItems,
+                service._storage.treeItemsState.selectedId,
                 resp);
         });
     }
