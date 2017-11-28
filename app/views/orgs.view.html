@@ -5,25 +5,16 @@
         <a ng-click="orgs_ctrl.OrgsStore.getOrg(1)">test</a>
         <a ng-click="orgs_ctrl.OrgsStore.updateOrg({id: 1, name: 'blablabla'})">update test</a>
       -->
-        <div class="panel panel-default" style="width: 100%;">
-          <div class="btn-group">
-             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#orgDialogCreate">Добавить</button>
-           </div>
-          <div class="btn-group">
-             <button type="button" ng-click="orgs_ctrl.showOrg()" ng-class="{'disabled': orgs_ctrl.isSelected(-1)}" class="btn btn-default"  data-toggle="modal" data-target="#orgDialogUpdate">Изменить</button>
-           </div>
-          <div class="btn-group">
-             <button type="button" ng-class="{'disabled': orgs_ctrl.isSelected(-1)}" class="btn btn-default" data-toggle="modal" data-target="#delModal">Удалить</button>
-          </div>
-        </div>
+      <div class="panel panel-default" style="width: 100%;">
+        <div ng-init = "thisPartial = orgs_ctrl.partials['orgActionPanel']" ng-include="'/partials/actionPanel.partial.html'"
+        ng-controller="ElementController as el_ctrl"></div>
         <div ng-init="thisPartial = orgs_ctrl.partials['treeItemRenderer']" ng-controller="TreeItemRenderer as tree_ctrl">
           <div ng-include="'/partials/treeItemRenderer.partial.html'">
           </div>
         </div>
-    </div>
+      </div>
 
-    <div ng-init="thisPartial = orgs_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'"></div>
-
+    <div ng-init="thisPartial = orgs_ctrl.partials['delModal']" ng-include="'/partials/confirmDialog.partial.html'" ng-controller="OrgDialogController as org_dialog_ctrl"></div>
     <div ng-init="thisPartial = orgs_ctrl.partials['orgDialogUpdate']" ng-include="'/partials/orgDialog.partial.html'" ng-controller="OrgDialogController as org_dialog_ctrl"></div>
     <div ng-init="thisPartial = orgs_ctrl.partials['orgDialogCreate']" ng-include="'/partials/orgDialog.partial.html'" ng-controller="OrgDialogController as org_dialog_ctrl"></div>
 

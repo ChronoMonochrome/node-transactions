@@ -18,6 +18,7 @@ angular.module("ngmkdev").controller('OrgsController',
         }
 
         vm.isSelected = function(index) {
+          if (index == undefined) index = -1;
           return vm.partials["treeItemRenderer"].selectedId == index;
         }
 
@@ -43,14 +44,9 @@ angular.module("ngmkdev").controller('OrgsController',
              }
              if (obj.children) {
                if (_pruneOrg(obj.children, id)) {
-                 if (obj.children.length === 0) {
+                  if (obj.children.length === 0) {
                       // delete children property when empty
                       delete obj.children;
-
-                      // or, to delete this parent altogether
-                      // as a result of it having no more children
-                      // do this instead
-                      tree.splice(i, 1);
                   }
                   return true;
               }
@@ -205,6 +201,15 @@ angular.module("ngmkdev").controller('OrgsController',
               action     : vm.createOrg,
               actionText : 'Ок',
               actionApplyText : 'Применить'
+          },
+          "orgActionPanel" : {
+              addTarget       : "orgDialogCreate",
+              updateTarget    : "orgDialogUpdate",
+              deleteTarget    : "delModal",
+              ngActiveCheckFn : vm.isSelected,
+              ngAddClickFn    : null,
+              ngUpdateClickFn : vm.showOrg,
+              ngDeleteClickFn : null
           },
           "treeItemRenderer" : {
               selectedId      : -1,
