@@ -39,6 +39,7 @@
     "morgan": "^1.9.0",
     "mysql": "^2.15.0",
     "mysql-utilities": "^1.0.10",
+    "ngstorage": "^0.3.11",
     "orm": "^4.0.1",
     "restangular": "^1.6.1"
   },

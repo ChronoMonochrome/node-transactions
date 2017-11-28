@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('ngmkdev', ['ngAnimate', 'ngCookies', 'ngMessages', 'restangular',
+        .module('ngmkdev', ['ngAnimate', 'ngCookies', 'ngMessages', 'ngStorage', 'restangular',
             'ui.router', 'ui.bootstrap', 'toastr'
         ])
         .config(function($stateProvider, $urlRouterProvider, RestangularProvider) {

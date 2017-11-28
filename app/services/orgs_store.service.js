@@ -1,6 +1,11 @@
-angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
+angular.module('ngmkdev').factory('OrgsStore', function(Restangular, $localStorage) {
     var vm = this;
     var service = {};
+
+    service.storage = $localStorage.$default({
+      treeItemsState: {}
+    });
+
     service._getOrg = function(id) {
         return Restangular.one('api/orgs', id).get().then(function(resp) {
             console.log(resp.plain());
@@ -56,18 +61,28 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
 
     service.selectOrg = function(index) {
         //console.log("clicked " + index);
-        if (service.partials["treeItemRenderer"].selectedId != index)
-            service.partials["treeItemRenderer"].selectedId = index;
-        else service.partials["treeItemRenderer"].selectedId = -1;
+        if (service.storage.treeItemsState.selectedId != index)
+            service.storage.treeItemsState.selectedId = index;
+        else service.storage.treeItemsState.selectedId = -1;
+    }
+
+    service.toggleCb = function(index) {
+        service.storage.treeItemsState[index] = !service.storage.treeItemsState[index];
+        //console.log(service.storage.treeItemsState);
+    }
+
+    service.isListOpen = function(index) {
+        //console.log(index);
+        return service.storage.treeItemsState[index];
     }
 
     service.isSelected = function(index) {
         if (index == undefined) index = -1;
-        return service.partials["treeItemRenderer"].selectedId == index;
+        return service.storage.treeItemsState.selectedId == index;
     }
 
     service.getSelected = function() {
-        return service.partials["treeItemRenderer"].selectedId;
+        return service.storage.treeItemsState.selectedId;
     }
 
     service.loadOrgsTree = function() {
@@ -140,19 +155,19 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
     }
 
     service.removeOrg = function() {
-        if (service.partials["treeItemRenderer"].selectedId == -1)
+        if (service.storage.treeItemsState.selectedId == -1)
             return;
 
         return service._removeOrg(service.partials["treeItemRenderer"]
             .selectedId).then(function(resp) {
             service._pruneOrg(service.partials["treeItemRenderer"].menuItems,
-                service.partials["treeItemRenderer"].selectedId);
-            service.partials["treeItemRenderer"].selectedId = -1;
+                service.storage.treeItemsState.selectedId);
+            service.storage.treeItemsState.selectedId = -1;
         });
     }
 
     service.showOrg = function() {
-        if (service.partials["treeItemRenderer"].selectedId == -1)
+        if (service.storage.treeItemsState.selectedId == -1)
             return;
         //console.log('showOrg');
         //console.log('id: ' + service.partials["treeItemRenderer"]
@@ -175,20 +190,20 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
     }
 
     service.updateOrg = function() {
-        if (service.partials["treeItemRenderer"].selectedId == -1)
+        if (service.storage.treeItemsState.selectedId == -1)
             return;
 
         return service._updateOrg(service.partials["orgDialogUpdate"]
             .bodyData).then(function() {
             service._updateOrgName(service.partials["treeItemRenderer"].menuItems,
-                service.partials["treeItemRenderer"].selectedId,
+                service.storage.treeItemsState.selectedId,
                 service.partials["orgDialogUpdate"]
                 .bodyData.name);
         });
     }
 
     service.createOrg = function() {
-        var parentId = service.partials["treeItemRenderer"].selectedId;
+        var parentId = service.storage.treeItemsState.selectedId;
         if (parentId == -1)
             parentId = 0;
 
@@ -199,7 +214,7 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
             .bodyData).then(function(resp) {
             //console.log("resp: " + resp);
             service._addOrg(service.partials["treeItemRenderer"].menuItems,
-                service.partials["treeItemRenderer"].selectedId,
+                service.storage.treeItemsState.selectedId,
                 resp);
         });
     }
@@ -256,10 +271,11 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
             ngDeleteClickFn: null
         },
         "treeItemRenderer": {
-            selectedId: -1,
             menuItems: [],
             ngActiveCheckFn: service.isSelected,
             ngClickFn: service.selectOrg,
+            ngToggleFn: service.toggleCb,
+            ngCheckOpenFn: service.isListOpen
         }
     };
 
