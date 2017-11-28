@@ -1,43 +1,45 @@
-Integer = {type: 'integer', size: 8};
+Integer = {
+    type: 'integer',
+    size: 8
+};
 
 module.exports = function(orm, db) {
-        var Org = db.define('org', {
-                id: {
-                    type: 'serial',
-                    key: true
-                },
-                user_id: Integer,
-                parent_id: Integer,
-                type_id: Integer,
-                form_id: Integer,
-                depth: Integer,
-                inn: String,
-                name: String,
-                shortname: String,
+    var Org = db.define('org', {
+        id: {
+            type: 'serial',
+            key: true
+        },
+        user_id: Integer,
+        parent_id: Integer,
+        type_id: Integer,
+        form_id: Integer,
+        depth: Integer,
+        inn: String,
+        name: String,
+        shortname: String,
+    }, {
+        methods: {
+            serialize: function() {
+                return {
+                    id: this.id,
+                    text: this.name,
+                    parent_id: this.parent_id
+                };
             },
-            {
-              methods: {
-                 serialize: function () {
-                   return {
-                          id       : this.id,
-                          text     : this.name,
-                          parent_id: this.parent_id
-                   };
-                 },
-                 update: function(params) {
-                   for (var property in params) {
-                      if (params.hasOwnProperty(property)) {
-                          this[property] = params[property];
-                      }
-                   }
-                   
-                   return this;
-                 }
-               }
-            });
+            update: function(params) {
+                for (var property in params) {
+                    if (params.hasOwnProperty(property)) {
+                        this[property] = params[property];
+                    }
+                }
 
-            // add the table to the database
-            db.sync(function(err) {
-                if (err) throw err;
-            });
+                return this;
+            }
         }
+    });
+
+    // add the table to the database
+    db.sync(function(err) {
+        if (err) throw err;
+    });
+}

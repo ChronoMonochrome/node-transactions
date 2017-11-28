@@ -1,29 +1,31 @@
 <style>
-/*
+    /*
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
     //background:       #a5a5a5;
     background-color: #151515;
 }*/
 
-.dropdown-menu>li>a:hover {
-   box-shadow: 0 0 10px rgba(0,0,0,0.4), inset 0 0 1px rgba(255,255,255,0.8);
-   background: rgba(255,255,255,0.3);
-   color: rgba(255,255,255,0.9);
-   border-bottom: 1px solid rgba(255,255,255,0.9);
-}
+    .dropdown-menu>li>a:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+    }
 
-.my_active {
-   box-shadow: 0 0 10px rgba(0,0,0,0.6), inset 0 0 1px rgba(255,255,255,0.9);
-   background: rgba(255,255,255,0.3);
-   color: rgba(255,255,255,0.9);
-   border-bottom: 1px solid rgba(255,255,255,0.9);
-}
+    .my_active {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.6), inset 0 0 1px rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+    }
 
-.my_active, .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:active {
-   color: #444;
-   //outline: 0;
-   //text-decoration: none;
-}
+    .my_active,
+    .dropdown-menu>li>a:hover,
+    .dropdown-menu>li>a:focus,
+    .dropdown-menu>li>a:active {
+        color: #444; //outline: 0;
+        //text-decoration: none;
+    }
 </style>
 
 <script type="text/ng-template" id="tree_item_renderer.html">
@@ -39,8 +41,8 @@
 </script>
 
 <div class="dropdown" style="width: 100%;">
-  <ul class="list-group dropdown-menu" style="display: block; width: 100%;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-    <li ng-repeat="item in thisPartial.menuItems" class="list-group-item dropdown" ng-include="'tree_item_renderer.html'">
-    </li>
-  </ul>
+    <ul class="list-group dropdown-menu" style="display: block; width: 100%;" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+        <li ng-repeat="item in thisPartial.menuItems" class="list-group-item dropdown" ng-include="'tree_item_renderer.html'">
+        </li>
+    </ul>
 </div>

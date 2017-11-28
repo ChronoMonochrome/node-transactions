@@ -1,4 +1,4 @@
-angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
+angular.module('ngmkdev').factory('FormsStore', function(Restangular) {
     var vm = this;
     var service = {};
     service._getOrg = function(id) {
@@ -42,16 +42,16 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
     }
 
     service._loadOrgsTree = function() {
-        return Restangular.all('api/orgs').getList().then(function(resp) {
-            return resp.plain();
-        });
+            return Restangular.all('api/orgs').getList().then(function(resp) {
+                return resp.plain();
+            });
     }
 
     service.queryOrgs = function(params) {
-        return service._queryOrgs(params).then(function(orgs) {
-            //console.log(orgs);
-            service.partials["treeItemRenderer"].menuItems = orgs;
-        });
+            return service._queryOrgs(params).then(function(orgs) {
+                //console.log(orgs);
+                service.partials["treeItemRenderer"].menuItems = orgs;
+            });
     }
 
     service.selectOrg = function(index) {
@@ -188,20 +188,20 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
     }
 
     service.createOrg = function() {
-        var parentId = service.partials["treeItemRenderer"].selectedId;
-        if (parentId == -1)
-            parentId = 0;
+            var parentId = service.partials["treeItemRenderer"].selectedId;
+            if (parentId == -1)
+                parentId = 0;
 
-        service.partials["orgDialogCreate"]
-            .bodyData.parent_id = parentId;
+            service.partials["orgDialogCreate"]
+                .bodyData.parent_id = parentId;
 
-        return service._createOrg(service.partials["orgDialogCreate"]
-            .bodyData).then(function(resp) {
-            //console.log("resp: " + resp);
-            service._addOrg(service.partials["treeItemRenderer"].menuItems,
-                service.partials["treeItemRenderer"].selectedId,
-                resp);
-        });
+            return service._createOrg(service.partials["orgDialogCreate"]
+                .bodyData).then(function(resp) {
+                //console.log("resp: " + resp);
+                service._addOrg(service.partials["treeItemRenderer"].menuItems,
+                    service.partials["treeItemRenderer"].selectedId,
+                    resp);
+            });
     }
 
     service.log = function(obj) {
@@ -263,7 +263,7 @@ angular.module('ngmkdev').factory('OrgsStore', function(Restangular) {
         }
     };
 
-    service.loadOrgsTree();
+    //service.loadOrgsTree();
 
     return service;
 });

@@ -1,4 +1,4 @@
 angular.module("ngmkdev").controller('ElementController',
-    function( /*$scope, */) {
+    function( /*$scope, */ ) {
         var vm = this;
     });

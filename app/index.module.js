@@ -15,6 +15,10 @@
                     url: "/transactions",
                     templateUrl: "app/views/transactions.view.html"
                 })
+                .state('forms', {
+                    url: "/forms",
+                    templateUrl: "app/views/forms.view.html"
+                })
                 .state('settings', {
                     url: "/settings",
                     templateUrl: "app/views/settings.view.html"
